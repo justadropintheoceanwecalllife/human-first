@@ -36,8 +36,12 @@ export default function Bulletin() {
 
     // Check admin status
     const user = getCurrentUser();
+    console.log('Current user:', user);
+    console.log('Is admin?', user ? isBulletinAdmin(user.nric, user.email) : false);
+
     if (user && isBulletinAdmin(user.nric, user.email)) {
       setIsAdmin(true);
+      console.log('Admin access granted');
     }
   }, []);
 

@@ -189,10 +189,12 @@ export default function Home() {
         </motion.p>
       </main>
 
-      {/* Leaderboard */}
-      <div className="relative z-10 mt-16 px-8 pb-12 w-full">
-        <Leaderboard />
-      </div>
+      {/* Leaderboard - Only show for new users */}
+      {!isUserVerified && (
+        <div className="relative z-10 mt-16 px-8 pb-12 w-full">
+          <Leaderboard />
+        </div>
+      )}
       </div>
     </div>
   );
