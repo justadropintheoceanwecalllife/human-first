@@ -101,10 +101,10 @@ export default function Feed() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-5xl font-bold text-deep-sea mb-4">
+          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             Community Feed
           </h1>
-          <p className="text-xl text-water-dark">
+          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
             See what humans are making today
           </p>
         </motion.div>
@@ -114,7 +114,8 @@ export default function Feed() {
             href="/daily"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
           >
             📸 Today's Challenge
           </motion.a>
@@ -122,7 +123,8 @@ export default function Feed() {
             href="/chat"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
           >
             💬 Join Chat
           </motion.a>
@@ -138,17 +140,18 @@ export default function Feed() {
             className="glass p-12 rounded-[40px] soft-shadow text-center"
           >
             <div className="text-6xl mb-6">🌱</div>
-            <h2 className="text-2xl font-bold text-deep-sea mb-4">
+            <h2 className="text-2xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
               No submissions yet
             </h2>
-            <p className="text-water-dark mb-6">
+            <p className="text-ocean-white/85 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
               Be the first to complete today's challenge!
             </p>
             <motion.a
               href="/daily"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block glass px-8 py-4 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+              className="inline-block glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
             >
               Get Started
             </motion.a>
@@ -170,10 +173,10 @@ export default function Feed() {
                       <span className="text-3xl">{submission.challengeIcon}</span>
                     )}
                     <div>
-                      <p className="font-semibold text-deep-sea">
+                      <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                         {submission.challengeTitle || 'Challenge'}
                       </p>
-                      <p className="text-sm text-water-dark">
+                      <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                         {new Date(submission.createdAt).toLocaleDateString('en-SG', {
                           month: 'short',
                           day: 'numeric',
@@ -203,13 +206,13 @@ export default function Feed() {
 
                   {/* Caption */}
                   {submission.caption && (
-                    <p className="text-deep-sea mb-3">
+                    <p className="text-ocean-white/90 font-medium mb-3" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                       {submission.caption}
                     </p>
                   )}
 
                   {/* Footer - would show user info in production */}
-                  <div className="flex items-center gap-2 text-sm text-deep-sea-light font-medium">
+                  <div className="flex items-center gap-2 text-sm text-ocean-white/75 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                     <span>👤</span>
                     <span>Anonymous Human</span>
                   </div>
@@ -232,7 +235,8 @@ export default function Feed() {
       >
         <a
           href="/"
-          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
+          className="text-sm text-ocean-white/80 font-medium hover:text-ocean-white underline"
+          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
         >
           ← Back to home
         </a>

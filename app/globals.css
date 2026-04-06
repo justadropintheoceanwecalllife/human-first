@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
   /* Ocean blue (from jellyfish brand) */
@@ -21,6 +22,9 @@
   --deep-sea-light: #2C4F5E;
   --pearl: #F0F4F5;
   --ocean-white: #FFFFFF;
+
+  /* Retro fonts */
+  --font-pixel: 'Press Start 2P', monospace;
 }
 
 @theme inline {

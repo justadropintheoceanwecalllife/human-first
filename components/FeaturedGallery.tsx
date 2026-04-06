@@ -71,10 +71,10 @@ export default function FeaturedGallery() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h2 className="text-3xl font-bold text-deep-sea mb-2 text-center">
+        <h2 className="text-3xl font-bold text-ocean-white mb-2 text-center" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
           ✨ Featured Gallery
         </h2>
-        <p className="text-deep-sea-light font-medium text-center">
+        <p className="text-ocean-white/85 font-medium text-center" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
           Interesting submissions from the community
         </p>
       </motion.div>
@@ -107,14 +107,14 @@ export default function FeaturedGallery() {
             {submission.challengeIcon && (
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-2xl">{submission.challengeIcon}</span>
-                <p className="font-bold text-deep-sea text-sm">
+                <p className="font-bold text-ocean-white text-sm" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                   {submission.challengeTitle}
                 </p>
               </div>
             )}
 
             {submission.caption && (
-              <p className="text-deep-sea-light text-sm font-medium line-clamp-2">
+              <p className="text-ocean-white/80 text-sm font-medium line-clamp-2" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                 {submission.caption}
               </p>
             )}

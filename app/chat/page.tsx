@@ -180,11 +180,11 @@ export default function Chat() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-deep-sea flex items-center gap-3">
+              <h1 className="text-3xl font-bold text-ocean-white flex items-center gap-3" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
                 <span className="text-4xl">{challenge.icon}</span>
                 Live Chat
               </h1>
-              <p className="text-water-dark mt-1">
+              <p className="text-ocean-white/85 font-medium mt-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                 Today's challenge: {challenge.title}
               </p>
             </div>
@@ -193,7 +193,8 @@ export default function Chat() {
                 href="/daily"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="glass px-5 py-2 rounded-full font-semibold text-deep-sea text-sm soft-shadow hover:glow transition-all"
+                className="glass px-5 py-2 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
               >
                 📸 Challenge
               </motion.a>
@@ -201,15 +202,16 @@ export default function Chat() {
                 href="/feed"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="glass px-5 py-2 rounded-full font-semibold text-deep-sea text-sm soft-shadow hover:glow transition-all"
+                className="glass px-5 py-2 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
               >
                 🎨 Feed
               </motion.a>
             </div>
           </div>
           {user && (
-            <p className="text-sm text-deep-sea-light font-medium">
-              Chatting as <span className="font-bold text-deep-sea">{user.displayName}</span>
+            <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+              Chatting as <span className="font-bold text-ocean-white">{user.displayName}</span>
             </p>
           )}
         </div>
@@ -225,10 +227,10 @@ export default function Chat() {
               className="glass p-8 rounded-3xl soft-shadow text-center"
             >
               <div className="text-5xl mb-4">👋</div>
-              <h2 className="text-2xl font-bold text-deep-sea mb-2">
+              <h2 className="text-2xl font-bold text-ocean-white mb-2" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
                 Start the conversation!
               </h2>
-              <p className="text-deep-sea-light font-medium">
+              <p className="text-ocean-white/85 font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                 Share what you made, ask questions, or just say hi
               </p>
             </motion.div>
@@ -248,21 +250,21 @@ export default function Chat() {
                       <div className="flex items-start gap-3">
                         <div className="text-2xl">🤖</div>
                         <div>
-                          <p className="font-semibold text-jellyfish text-sm mb-1">
+                          <p className="font-bold text-jellyfish-pink text-sm mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                             AI Facilitator
                           </p>
-                          <p className="text-deep-sea">{msg.message}</p>
+                          <p className="text-ocean-white font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{msg.message}</p>
                         </div>
                       </div>
                     </div>
                   ) : (
                     // User message
                     <div className="glass px-6 py-4 rounded-3xl soft-shadow max-w-2xl">
-                      <p className="font-bold text-deep-sea-light text-sm mb-1">
+                      <p className="font-bold text-ocean-white text-sm mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                         {msg.displayName || 'Anonymous Human'}
                       </p>
-                      <p className="text-deep-sea">{msg.message}</p>
-                      <p className="text-xs text-deep-sea-light/60 font-medium mt-2">
+                      <p className="text-ocean-white/90 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{msg.message}</p>
+                      <p className="text-xs text-ocean-white/60 font-medium mt-2" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                         {new Date(msg.createdAt).toLocaleTimeString('en-SG', {
                           hour: '2-digit',
                           minute: '2-digit',
@@ -288,7 +290,7 @@ export default function Chat() {
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what you made, ask a question..."
-              className="flex-1 px-6 py-4 rounded-full bg-white/50 border border-water/20 focus:border-water focus:outline-none text-deep-sea placeholder:text-deep-sea-light/70"
+              className="flex-1 px-6 py-4 rounded-full bg-white/50 border border-water/20 focus:border-water focus:outline-none text-deep-sea font-medium placeholder:text-deep-sea-light/70"
               disabled={isSending}
             />
             <motion.button
@@ -296,7 +298,8 @@ export default function Chat() {
               disabled={!newMessage.trim() || isSending}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
             >
               {isSending ? '...' : 'Send'}
             </motion.button>
@@ -308,7 +311,8 @@ export default function Chat() {
       <div className="relative z-10 text-center pb-4">
         <a
           href="/"
-          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
+          className="text-sm text-ocean-white/80 font-medium hover:text-ocean-white underline"
+          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
         >
           ← Back to home
         </a>

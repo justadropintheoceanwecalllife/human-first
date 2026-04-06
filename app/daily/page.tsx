@@ -133,7 +133,7 @@ export default function DailyChallenge() {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-water-dark">Loading...</p>
+        <p className="text-ocean-white font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>Loading...</p>
       </div>
     );
   }
@@ -147,10 +147,10 @@ export default function DailyChallenge() {
           className="glass p-12 rounded-[40px] soft-shadow text-center max-w-2xl relative z-10"
         >
           <div className="text-6xl mb-6">🎉</div>
-          <h1 className="text-4xl font-bold text-deep-sea mb-4">
+          <h1 className="text-4xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             You're human!
           </h1>
-          <p className="text-xl text-water-dark mb-8">
+          <p className="text-xl text-ocean-white/90 font-medium mb-8" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
             Thanks for sharing, {user.displayName}
           </p>
 
@@ -160,10 +160,10 @@ export default function DailyChallenge() {
                 🔥
               </div>
               <div>
-                <p className="font-semibold text-deep-sea">
+                <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                   {user.streakCount} day streak!
                 </p>
-                <p className="text-sm text-water-dark">Keep it going</p>
+                <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Keep it going</p>
               </div>
             </div>
           </div>
@@ -173,7 +173,8 @@ export default function DailyChallenge() {
               href="/feed"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+              className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
             >
               See Community Feed
             </motion.a>
@@ -181,7 +182,8 @@ export default function DailyChallenge() {
               href="/chat"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+              className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
             >
               Join the Chat
             </motion.a>
@@ -227,7 +229,7 @@ export default function DailyChallenge() {
             animate={{ opacity: 1, y: 0 }}
             className="glass px-6 py-3 rounded-full soft-shadow text-center bg-sunset/20"
           >
-            <p className="text-sm text-deep-sea font-bold">
+            <p className="text-sm text-ocean-white font-bold" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
               🎭 Demo Mode - Using mock data (Supabase not connected)
             </p>
           </motion.div>
@@ -238,11 +240,11 @@ export default function DailyChallenge() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <p className="text-sm text-deep-sea/80 mb-2 font-medium">Hello, {user.displayName}</p>
-          <h1 className="text-5xl font-bold text-deep-sea mb-4">
+          <p className="text-sm text-ocean-white/80 mb-2 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Hello, {user.displayName}</p>
+          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             Prove you're human
           </h1>
-          <p className="text-xl text-deep-sea-light font-medium">
+          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
             Complete today's challenge to join the conversation
           </p>
         </motion.div>
@@ -256,13 +258,13 @@ export default function DailyChallenge() {
           <div className="flex items-center gap-4 mb-6">
             <div className="text-5xl">{challenge.icon}</div>
             <div>
-              <h2 className="text-2xl font-bold text-deep-sea">{challenge.title}</h2>
-              <p className="text-deep-sea-light font-medium">{challenge.description}</p>
+              <h2 className="text-2xl font-bold text-ocean-white" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>{challenge.title}</h2>
+              <p className="text-ocean-white/85 font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>{challenge.description}</p>
             </div>
           </div>
 
           <div className="mb-6 p-6 bg-water-foam/30 rounded-3xl border border-water/20">
-            <p className="text-lg text-deep-sea italic font-medium">
+            <p className="text-lg text-ocean-white italic font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
               "{challenge.prompt}"
             </p>
           </div>
@@ -279,10 +281,10 @@ export default function DailyChallenge() {
                 />
                 <div className="border-2 border-dashed border-water/50 rounded-3xl p-12 text-center cursor-pointer hover:border-water transition-colors hover:bg-water-foam/10">
                   <div className="text-5xl mb-4">📸</div>
-                  <p className="text-deep-sea font-bold mb-2 text-lg">
+                  <p className="text-ocean-white font-bold mb-2 text-lg" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                     Click to upload photo or video
                   </p>
-                  <p className="text-sm text-deep-sea-light font-medium">
+                  <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                     Max 10MB • Images or videos
                   </p>
                 </div>
@@ -311,7 +313,8 @@ export default function DailyChallenge() {
                     setPreviewUrl(null);
                     setValidation(null);
                   }}
-                  className="text-sm text-deep-sea-light hover:text-deep-sea underline font-medium"
+                  className="text-sm text-ocean-white/80 hover:text-ocean-white underline font-medium"
+                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
                 >
                   Choose a different file
                 </button>
@@ -322,7 +325,8 @@ export default function DailyChallenge() {
                     onClick={handleValidate}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full glass px-8 py-4 rounded-full text-md font-semibold text-deep-sea soft-shadow hover:glow transition-all border-2 border-water/30"
+                    className="w-full glass px-8 py-4 rounded-full text-md font-bold text-ocean-white soft-shadow hover:glow transition-all border-2 border-water/30"
+                    style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
                   >
                     🤖 Verify with AI
                   </motion.button>
@@ -337,7 +341,7 @@ export default function DailyChallenge() {
                     >
                       🤖
                     </motion.div>
-                    <p className="text-deep-sea font-semibold">AI is checking your submission...</p>
+                    <p className="text-ocean-white font-bold" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>AI is checking your submission...</p>
                   </div>
                 )}
 
@@ -356,14 +360,14 @@ export default function DailyChallenge() {
                         {validation.isValid ? '✅' : '🤔'}
                       </div>
                       <div className="flex-1">
-                        <p className="font-bold text-deep-sea text-lg mb-1">
+                        <p className="font-bold text-ocean-white text-lg mb-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
                           {validation.isValid ? 'Looks good!' : 'Hmm...'}
                         </p>
-                        <p className="text-deep-sea-light font-medium">
+                        <p className="text-ocean-white/85 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                           {validation.reasoning}
                         </p>
                         {validation.suggestion && (
-                          <p className="text-deep-sea-light font-medium mt-2 italic">
+                          <p className="text-ocean-white/85 font-medium mt-2 italic" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
                             💡 {validation.suggestion}
                           </p>
                         )}
@@ -376,7 +380,8 @@ export default function DailyChallenge() {
                           setPreviewUrl(null);
                           setValidation(null);
                         }}
-                        className="text-sm text-deep-sea hover:text-deep-sea-light underline font-semibold"
+                        className="text-sm text-ocean-white hover:text-ocean-white/80 underline font-bold"
+                        style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
                       >
                         Try again with a different photo
                       </button>
@@ -388,7 +393,7 @@ export default function DailyChallenge() {
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                   placeholder="Add a caption (optional)"
-                  className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none text-deep-sea placeholder:text-deep-sea-light/70"
+                  className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none text-deep-sea font-medium placeholder:text-deep-sea-light/70"
                   rows={3}
                 />
 
@@ -397,7 +402,8 @@ export default function DailyChallenge() {
                   disabled={isSubmitting || (!validation && !isMockMode)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full glass px-8 py-5 rounded-full text-lg font-semibold text-deep-sea soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full glass px-8 py-5 rounded-full text-lg font-bold text-ocean-white soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
                   title={!validation && !isMockMode ? 'Please verify your image first' : ''}
                 >
                   {isSubmitting ? 'Submitting...' : validation?.isValid ? 'Submit & Join the Humans ✨' : 'Submit Anyway'}
@@ -412,7 +418,8 @@ export default function DailyChallenge() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
+          className="text-sm text-ocean-white/80 font-medium hover:text-ocean-white underline"
+          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
         >
           ← Back to home
         </motion.a>
