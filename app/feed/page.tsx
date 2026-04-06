@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getAllSubmissions } from '@/lib/supabaseUserManager';
 import { getAllSubmissionsMock } from '@/lib/mockUserManager';
 import { getChallengeById } from '@/lib/challenges';
+import FeaturedGallery from '@/components/FeaturedGallery';
 import type { Submission } from '@/types/user';
 
 interface SubmissionWithChallenge extends Submission {
@@ -217,6 +218,9 @@ export default function Feed() {
             ))}
           </div>
         )}
+
+        {/* Featured Gallery */}
+        <FeaturedGallery />
       </div>
 
       {/* Back to home */}
