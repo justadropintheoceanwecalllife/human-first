@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getAllSubmissions, getUserSubmissions } from '@/lib/supabaseUserManager';
 import { getAllSubmissionsMock, getUserSubmissionsMock } from '@/lib/mockUserManager';
 import { getChallengeById, getTodaysChallenge } from '@/lib/challenges';
+import { isVerified } from '@/lib/singpass';
 import FeaturedGallery from '@/components/FeaturedGallery';
 import UserMenu from '@/components/UserMenu';
 import type { Submission, SubmissionCategory } from '@/types/user';
@@ -32,19 +33,19 @@ export default function Feed() {
   const challenge = getTodaysChallenge();
 
   useEffect(() => {
-    // Check if user has any submissions first
-    const checkUserSubmissions = async () => {
+    // Check if user is verified first
+    const loadFeed = async () => {
+      // If not verified, show onboarding (don't load feed)
+      if (!isVerified()) {
+        setIsLoading(false);
+        return;
+      }
+
+      // User is verified, load full feed
       try {
         const userSubs = await getUserSubmissions();
         setUserSubmissions(userSubs);
 
-        // If user has no submissions, show onboarding
-        if (userSubs.length === 0) {
-          setIsLoading(false);
-          return;
-        }
-
-        // User has submissions, load full feed
         const allSubs = await getAllSubmissions();
         const enriched = allSubs.map(sub => {
           const challenge = getChallengeById(sub.challengeId);
@@ -63,13 +64,6 @@ export default function Feed() {
         const userSubs = await getUserSubmissionsMock();
         setUserSubmissions(userSubs);
 
-        // If user has no submissions, show onboarding
-        if (userSubs.length === 0) {
-          setIsLoading(false);
-          return;
-        }
-
-        // User has submissions, load full feed
         const allSubs = await getAllSubmissionsMock();
         const enriched = allSubs.map(sub => {
           const challenge = getChallengeById(sub.challengeId);
@@ -84,7 +78,7 @@ export default function Feed() {
       }
     };
 
-    checkUserSubmissions();
+    loadFeed();
   }, []);
 
   // Filter submissions by category
@@ -214,7 +208,7 @@ export default function Feed() {
 
       {/* Feed */}
       <div className="relative z-10 max-w-7xl mx-auto">
-        {userSubmissions.length === 0 ? (
+        {!isVerified() ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

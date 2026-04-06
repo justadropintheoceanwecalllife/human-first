@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { getTodaysChallenge } from '@/lib/challenges';
+import { getTodaysChallenge, getChallengeById } from '@/lib/challenges';
 import { getOrCreateUser, addSubmission, updateStreak, uploadFile, getUserSubmissions } from '@/lib/supabaseUserManager';
 import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock, getUserSubmissionsMock } from '@/lib/mockUserManager';
 import { isVerified, markAsVerified, getCurrentUser } from '@/lib/singpass';
@@ -380,14 +380,14 @@ export default function DailyChallenge() {
               </motion.div>
             )}
 
-            {activeTab === 'gallery' && (
+{activeTab === 'gallery' && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="glass p-8 rounded-[40px] soft-shadow"
               >
                 <h2 className="text-2xl font-bold text-ocean-white mb-6" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-                  Your Submissions
+                  Your Past Challenges
                 </h2>
                 {submissions.length === 0 ? (
                   <div className="text-center py-12">
@@ -397,33 +397,71 @@ export default function DailyChallenge() {
                     </p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {submissions.map((submission) => (
-                      <motion.div
-                        key={submission.id}
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="bg-ocean-white/20 rounded-3xl overflow-hidden border border-ocean-white/30"
-                      >
-                        <img
-                          src={submission.imageUrl}
-                          alt={submission.caption}
-                          className="w-full h-64 object-cover"
-                        />
-                        <div className="p-4">
-                          <p className="text-ocean-white font-medium mb-2" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-                            {submission.caption}
-                          </p>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs px-3 py-1 bg-jellyfish-pink/30 rounded-full text-ocean-white font-bold">
-                              {submission.category}
-                            </span>
-                            <span className="text-xs text-ocean-white/70 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
-                              {new Date(submission.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
+                  <div className="space-y-8">
+                    {/* Group submissions by date */}
+                    {Object.entries(
+                      submissions.reduce((groups, submission) => {
+                        const date = new Date(submission.createdAt).toLocaleDateString('en-US', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        });
+                        if (!groups[date]) {
+                          groups[date] = [];
+                        }
+                        groups[date].push(submission);
+                        return groups;
+                      }, {} as Record<string, Submission[]>)
+                    ).map(([date, daySubmissions]) => (
+                      <div key={date}>
+                        <h3 className="text-lg font-bold text-ocean-white mb-4 flex items-center gap-2" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                          <span className="text-2xl">📅</span>
+                          {date}
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {daySubmissions.map((submission) => {
+                            const challengeInfo = getChallengeById(submission.challengeId);
+                            return (
+                              <motion.div
+                                key={submission.id}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className="bg-ocean-white/20 rounded-3xl overflow-hidden border border-ocean-white/30 hover:border-ocean-white/50 transition-all"
+                              >
+                                <img
+                                  src={submission.imageUrl}
+                                  alt={submission.caption}
+                                  className="w-full h-48 object-cover"
+                                />
+                                <div className="p-4">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    {challengeInfo && (
+                                      <>
+                                        <span className="text-xl">{challengeInfo.icon}</span>
+                                        <span className="text-sm font-bold text-ocean-white" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                                          {challengeInfo.title}
+                                        </span>
+                                      </>
+                                    )}
+                                  </div>
+                                  <p className="text-ocean-white/90 font-medium mb-3 text-sm" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                                    {submission.caption}
+                                  </p>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-xs px-3 py-1 bg-jellyfish-pink/30 rounded-full text-ocean-white font-bold">
+                                      {submission.category}
+                                    </span>
+                                    <span className="text-xs text-ocean-white/70 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                                      {new Date(submission.createdAt).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                                    </span>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            );
+                          })}
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 )}
