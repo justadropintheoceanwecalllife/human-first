@@ -158,6 +158,14 @@ export default function Home() {
           </a>
           <span className="text-ocean-white/60">•</span>
           <a
+            href="/leaderboard"
+            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+          >
+            Leaderboard
+          </a>
+          <span className="text-ocean-white/60">•</span>
+          <a
             href="/bulletin"
             className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
             style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}

@@ -119,6 +119,16 @@ export default function Leaderboard() {
             </p>
           </div>
         )}
+
+        <div className="mt-6 text-center">
+          <a
+            href="/leaderboard"
+            className="text-sm text-ocean-white/80 font-bold hover:text-ocean-white underline transition-colors"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+          >
+            View Full Leaderboard →
+          </a>
+        </div>
       </div>
     </motion.div>
   );
