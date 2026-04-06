@@ -22,7 +22,7 @@ export default function UserMenu() {
   if (!user) return null;
 
   return (
-    <div className="fixed top-6 right-6 z-50">
+    <div className="relative">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
