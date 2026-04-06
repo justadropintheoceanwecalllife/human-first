@@ -3,10 +3,32 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
-import { getOrCreateUser, addSubmission, updateStreak, uploadFile } from '@/lib/supabaseUserManager';
-import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock } from '@/lib/mockUserManager';
+import { getOrCreateUser, addSubmission, updateStreak, uploadFile, getUserSubmissions } from '@/lib/supabaseUserManager';
+import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock, getUserSubmissionsMock } from '@/lib/mockUserManager';
+import { isVerified, markAsVerified, getCurrentUser } from '@/lib/singpass';
 import UserMenu from '@/components/UserMenu';
-import type { User } from '@/types/user';
+import type { User, Submission } from '@/types/user';
+
+interface LeaderboardUser {
+  displayName: string;
+  streakCount: number;
+  isCurrentUser: boolean;
+  completedToday: boolean;
+}
+
+// Mock leaderboard data (matching leaderboard page)
+const mockLeaderboard: LeaderboardUser[] = [
+  { displayName: 'Sarah Chua', streakCount: 42, isCurrentUser: false, completedToday: true },
+  { displayName: 'Marcus Wong Jun Wei', streakCount: 38, isCurrentUser: false, completedToday: true },
+  { displayName: 'Kevin Ng', streakCount: 35, isCurrentUser: false, completedToday: true },
+  { displayName: 'Rachel Koh', streakCount: 28, isCurrentUser: false, completedToday: false },
+  { displayName: 'Alex Tan Wei Ming', streakCount: 24, isCurrentUser: false, completedToday: true },
+  { displayName: 'Jamie Lim Hui Ling', streakCount: 19, isCurrentUser: false, completedToday: true },
+  { displayName: 'Daniel Lee', streakCount: 15, isCurrentUser: false, completedToday: false },
+  { displayName: 'Lisa Tan', streakCount: 12, isCurrentUser: false, completedToday: true },
+  { displayName: 'Ryan Poh', streakCount: 8, isCurrentUser: false, completedToday: false },
+  { displayName: 'Priya Kumar', streakCount: 7, isCurrentUser: false, completedToday: true },
+];
 
 interface ValidationResult {
   isValid: boolean;
@@ -25,17 +47,51 @@ export default function DailyChallenge() {
   const [isMockMode, setIsMockMode] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [validation, setValidation] = useState<ValidationResult | null>(null);
+  const [isAlreadyVerified, setIsAlreadyVerified] = useState(false);
+  const [activeTab, setActiveTab] = useState<'leaderboard' | 'gallery'>('leaderboard');
+  const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [leaderboardUsers, setLeaderboardUsers] = useState<LeaderboardUser[]>([]);
 
   const challenge = getTodaysChallenge();
 
   useEffect(() => {
+    // Check if user is already verified
+    setIsAlreadyVerified(isVerified());
+
+    // Setup leaderboard
+    const currentUser = getCurrentUser();
+    let leaderboard = [...mockLeaderboard];
+    if (currentUser) {
+      leaderboard.push({
+        displayName: currentUser.name.split(' ')[0],
+        streakCount: 0,
+        isCurrentUser: true,
+        completedToday: false,
+      });
+    }
+    leaderboard.sort((a, b) => b.streakCount - a.streakCount);
+    setLeaderboardUsers(leaderboard);
+
     // Try Supabase first, fallback to mock mode if it fails
     getOrCreateUser()
-      .then(setUser)
+      .then(user => {
+        setUser(user);
+        // Load submissions if already verified
+        if (isVerified()) {
+          return getUserSubmissions().then(setSubmissions);
+        }
+      })
       .catch(error => {
         console.warn('Supabase failed, using mock mode:', error);
         setIsMockMode(true);
-        return getOrCreateUserMock().then(setUser);
+        return getOrCreateUserMock()
+          .then(user => {
+            setUser(user);
+            // Load submissions if already verified
+            if (isVerified()) {
+              return getUserSubmissionsMock().then(setSubmissions);
+            }
+          });
       });
   }, []);
 
@@ -122,6 +178,8 @@ export default function DailyChallenge() {
         await updateStreak();
       }
 
+      // Mark user as verified (one-time)
+      markAsVerified();
       setHasSubmitted(true);
     } catch (error) {
       console.error('Failed to submit:', error);
@@ -135,6 +193,244 @@ export default function DailyChallenge() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="text-ocean-white font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>Loading...</p>
+      </div>
+    );
+  }
+
+  // Show tabs view if user is already verified
+  if (isAlreadyVerified && !hasSubmitted) {
+    return (
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Header */}
+        <div className="sticky top-0 z-50 glass border-b border-ocean-white/20 px-6 py-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <a
+                href="/"
+                className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-ocean-white/20 transition-colors"
+              >
+                <span className="text-ocean-white text-xl">←</span>
+              </a>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-jellyfish-pink/30 flex items-center justify-center text-xl">
+                  ✨
+                </div>
+                <span className="text-xl font-bold text-ocean-white" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+                  human-first
+                </span>
+              </div>
+            </div>
+            <UserMenu />
+          </div>
+        </div>
+
+        <div className="p-8">
+          {/* Floating background elements */}
+          <motion.div
+            className="absolute top-20 right-20 w-64 h-64 bg-sunset/20 blob"
+            animate={{
+              y: [0, -25, 0],
+              x: [0, 15, 0],
+            }}
+            transition={{
+              duration: 9,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-40 left-20 w-80 h-80 bg-jellyfish-pink/20 blob"
+            animate={{
+              y: [0, 25, 0],
+              x: [0, -15, 0],
+            }}
+            transition={{
+              duration: 11,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+
+          {/* Welcome message */}
+          <div className="relative z-10 max-w-4xl mx-auto mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-8"
+            >
+              <div className="text-5xl mb-4">✨</div>
+              <h1 className="text-4xl font-bold text-ocean-white mb-3" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                Welcome back, {user.displayName}!
+              </h1>
+              <p className="text-lg text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+                You're verified. Explore your journey below.
+              </p>
+            </motion.div>
+
+            {/* Tabs */}
+            <div className="flex justify-center gap-3 mb-8">
+              <motion.button
+                onClick={() => setActiveTab('leaderboard')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 rounded-full font-bold text-md transition-all ${
+                  activeTab === 'leaderboard'
+                    ? 'glass border-2 border-ocean-white/60 text-ocean-white soft-shadow'
+                    : 'glass text-ocean-white/80 border border-ocean-white/30'
+                }`}
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+              >
+                🏆 Leaderboard
+              </motion.button>
+              <motion.button
+                onClick={() => setActiveTab('gallery')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-6 py-3 rounded-full font-bold text-md transition-all ${
+                  activeTab === 'gallery'
+                    ? 'glass border-2 border-ocean-white/60 text-ocean-white soft-shadow'
+                    : 'glass text-ocean-white/80 border border-ocean-white/30'
+                }`}
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+              >
+                📸 My Gallery
+              </motion.button>
+            </div>
+
+            {/* Tab content */}
+            {activeTab === 'leaderboard' && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass p-8 rounded-[40px] soft-shadow"
+              >
+                <div className="text-center mb-6">
+                  <h2 className="text-3xl font-bold text-ocean-white mb-2" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+                    🏆 Leaderboard
+                  </h2>
+                  <p className="text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                    Top daily streak champions
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {leaderboardUsers.map((lbUser, index) => (
+                    <motion.div
+                      key={`${lbUser.displayName}-${index}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.03 }}
+                      className={`flex items-center justify-between p-5 rounded-2xl ${
+                        lbUser.isCurrentUser
+                          ? 'bg-jellyfish-pink/30 border-2 border-jellyfish-pink/60'
+                          : index < 3
+                          ? 'bg-ocean-white/30 border-2 border-ocean-white/40'
+                          : 'bg-ocean-white/20 border border-ocean-white/30'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${
+                          index === 0 ? 'bg-yellow-500/80 text-yellow-900' :
+                          index === 1 ? 'bg-gray-400/80 text-gray-900' :
+                          index === 2 ? 'bg-orange-600/80 text-orange-900' :
+                          'bg-ocean-white/40 text-ocean-white'
+                        }`}>
+                          {index === 0 ? '🥇' :
+                           index === 1 ? '🥈' :
+                           index === 2 ? '🥉' :
+                           index + 1}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <p className={`font-bold text-lg ${lbUser.isCurrentUser ? 'text-ocean-white' : 'text-ocean-white'}`} style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                              {lbUser.displayName} {lbUser.isCurrentUser && '(You)'}
+                            </p>
+                            {lbUser.completedToday && (
+                              <span className="px-2 py-0.5 bg-green-500/80 rounded-full text-xs font-bold text-white">
+                                ✓ Today
+                              </span>
+                            )}
+                          </div>
+                          {index < 3 && (
+                            <p className="text-xs text-ocean-white/70 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                              {index === 0 ? '👑 Champion' : index === 1 ? '🌟 Runner-up' : '🎖️ Top 3'}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-3xl">🔥</span>
+                        <span className="text-3xl font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                          {lbUser.streakCount}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mt-6 text-center">
+                  <a
+                    href="/leaderboard"
+                    className="text-sm text-ocean-white/80 font-bold hover:text-ocean-white underline transition-colors"
+                    style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+                  >
+                    View Full Leaderboard →
+                  </a>
+                </div>
+              </motion.div>
+            )}
+
+            {activeTab === 'gallery' && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="glass p-8 rounded-[40px] soft-shadow"
+              >
+                <h2 className="text-2xl font-bold text-ocean-white mb-6" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+                  Your Submissions
+                </h2>
+                {submissions.length === 0 ? (
+                  <div className="text-center py-12">
+                    <div className="text-5xl mb-4">📸</div>
+                    <p className="text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                      No submissions yet. Complete challenges to fill your gallery!
+                    </p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {submissions.map((submission) => (
+                      <motion.div
+                        key={submission.id}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-ocean-white/20 rounded-3xl overflow-hidden border border-ocean-white/30"
+                      >
+                        <img
+                          src={submission.imageUrl}
+                          alt={submission.caption}
+                          className="w-full h-64 object-cover"
+                        />
+                        <div className="p-4">
+                          <p className="text-ocean-white font-medium mb-2" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                            {submission.caption}
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs px-3 py-1 bg-jellyfish-pink/30 rounded-full text-ocean-white font-bold">
+                              {submission.category}
+                            </span>
+                            <span className="text-xs text-ocean-white/70 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                              {new Date(submission.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </div>
+        </div>
       </div>
     );
   }

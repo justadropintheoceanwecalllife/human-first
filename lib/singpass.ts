@@ -9,6 +9,7 @@
 
 const AUTH_KEY = 'human-first-singpass-auth';
 const USER_INFO_KEY = 'human-first-singpass-user';
+const VERIFIED_KEY = 'human-first-verified';
 
 export interface SingpassUser {
   nric: string; // Mock NRIC (last 4 digits only for privacy)
@@ -96,10 +97,23 @@ export function initiateRealSingpassLogin(clientId: string, redirectUri: string)
   // window.location.href = authUrl.toString();
 }
 
+export function isVerified(): boolean {
+  if (typeof window === 'undefined') return false;
+  const stored = localStorage.getItem(VERIFIED_KEY);
+  return stored === 'true';
+}
+
+export function markAsVerified(): void {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(VERIFIED_KEY, 'true');
+  }
+}
+
 export function logout(): void {
   if (typeof window !== 'undefined') {
     localStorage.removeItem(AUTH_KEY);
     localStorage.removeItem(USER_INFO_KEY);
+    localStorage.removeItem(VERIFIED_KEY);
   }
 }
 
