@@ -1,44 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  /* Water/Sky colors */
-  --water-light: #A8D5E2;
-  --water: #5B9AA9;
-  --water-foam: #B8E6D5;
-  --cloud: #F7FBFC;
-  --mist: #E8F4F8;
+  /* Ocean blue (from jellyfish brand) */
+  --ocean-blue: #4A90E2;
+  --ocean-deep: #2D5F8D;
+  --ocean-light: #6BA8E8;
 
-  /* Jellyfish/Nature accents */
-  --jellyfish: #FFB3D9;
+  /* Jellyfish pink/purple glow */
+  --jellyfish-pink: #E8B4D9;
+  --jellyfish-purple: #C894D4;
+  --jellyfish-glow: #F5D0E8;
+
+  /* Supporting colors */
+  --water-foam: #B8E6D5;
   --sunset: #FFD4A3;
-  --moss: #A8C69F;
-  --lavender: #C5B9E8;
   --coral: #FFB5A7;
 
   /* Neutrals */
   --deep-sea: #1A3A47;
   --deep-sea-light: #2C4F5E;
   --pearl: #F0F4F5;
-  --fog: #C9D6DA;
+  --ocean-white: #FFFFFF;
 }
 
 @theme inline {
   /* Colors */
-  --color-water-light: var(--water-light);
-  --color-water: var(--water);
-  --color-water-dark: var(--water);
+  --color-ocean-blue: var(--ocean-blue);
+  --color-ocean-deep: var(--ocean-deep);
+  --color-ocean-light: var(--ocean-light);
+  --color-jellyfish-pink: var(--jellyfish-pink);
+  --color-jellyfish-purple: var(--jellyfish-purple);
+  --color-jellyfish-glow: var(--jellyfish-glow);
   --color-water-foam: var(--water-foam);
-  --color-cloud: var(--cloud);
-  --color-mist: var(--mist);
-  --color-jellyfish: var(--jellyfish);
   --color-sunset: var(--sunset);
-  --color-moss: var(--moss);
-  --color-lavender: var(--lavender);
   --color-coral: var(--coral);
   --color-deep-sea: var(--deep-sea);
   --color-deep-sea-light: var(--deep-sea-light);
   --color-pearl: var(--pearl);
-  --color-fog: var(--fog);
+  --color-ocean-white: var(--ocean-white);
 
   /* Shadows */
   --shadow-soft: 0 10px 40px rgb(91 154 169 / 0.15);
@@ -55,6 +54,9 @@
   --animate-drift: drift 20s linear infinite;
   --animate-ripple: ripple 0.6s ease-out;
   --animate-wave: wave 3s ease-in-out infinite;
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-jellyfish-float: jellyfishFloat 8s ease-in-out infinite;
+  --animate-tentacle: tentacle 4s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -98,13 +100,87 @@
   }
 }
 
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(232, 180, 217, 0.3),
+                0 0 40px rgba(232, 180, 217, 0.2),
+                0 0 60px rgba(232, 180, 217, 0.1);
+    opacity: 0.8;
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(232, 180, 217, 0.6),
+                0 0 60px rgba(232, 180, 217, 0.4),
+                0 0 90px rgba(232, 180, 217, 0.2);
+    opacity: 1;
+  }
+}
+
+@keyframes jellyfishFloat {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-30px) translateX(10px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-20px) translateX(-10px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-35px) translateX(5px) rotate(1deg);
+  }
+}
+
+@keyframes tentacle {
+  0%, 100% {
+    transform: scaleY(1) translateY(0);
+  }
+  50% {
+    transform: scaleY(1.1) translateY(5px);
+  }
+}
+
 body {
-  background: linear-gradient(135deg, var(--water-light) 0%, var(--lavender) 100%);
+  background: linear-gradient(135deg,
+    var(--ocean-blue) 0%,
+    var(--ocean-deep) 50%,
+    var(--ocean-light) 100%);
   background-size: 200% 200%;
   animation: var(--animate-drift);
   color: var(--deep-sea);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Floating particles effect (like in ocean) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 60% 70%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.2), transparent),
+    radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 90% 60%, rgba(255, 255, 255, 0.2), transparent);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  animation: floatParticles 60s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes floatParticles {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
 }
 
 /* Utility classes */
@@ -135,11 +211,31 @@ body {
   animation: var(--animate-float);
 }
 
+.jellyfish-float {
+  animation: var(--animate-jellyfish-float);
+}
+
+.pulse-glow {
+  animation: var(--animate-pulse-glow);
+}
+
+.jellyfish-blob {
+  border-radius: var(--radius-blob);
+  animation: var(--animate-wave);
+  background: radial-gradient(
+    circle at 30% 40%,
+    rgba(232, 180, 217, 0.3) 0%,
+    rgba(200, 148, 212, 0.2) 50%,
+    transparent 70%
+  );
+}
+
 .text-readable {
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 .text-strong {
-  color: var(--deep-sea);
+  color: var(--ocean-white);
   font-weight: 600;
+  text-shadow: 0 2px 4px rgba(26, 58, 71, 0.3);
 }
