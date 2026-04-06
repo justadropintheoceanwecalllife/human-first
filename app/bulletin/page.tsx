@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
+import UserMenu from '@/components/UserMenu';
 
 const categoryColors = {
   sig: 'bg-jellyfish-pink/30 border-jellyfish-pink/50',
@@ -25,6 +26,9 @@ export default function Bulletin() {
 
   return (
     <div className="min-h-screen p-8 relative overflow-hidden">
+      {/* User menu */}
+      <UserMenu />
+
       {/* Floating background elements */}
       <motion.div
         className="absolute top-20 right-20 w-64 h-64 bg-coral/10 blob"

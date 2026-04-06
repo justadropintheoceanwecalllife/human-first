@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { getAllSubmissions } from '@/lib/supabaseUserManager';
-import { getAllSubmissionsMock } from '@/lib/mockUserManager';
-import { getChallengeById } from '@/lib/challenges';
+import { getAllSubmissions, getUserSubmissions } from '@/lib/supabaseUserManager';
+import { getAllSubmissionsMock, getUserSubmissionsMock } from '@/lib/mockUserManager';
+import { getChallengeById, getTodaysChallenge } from '@/lib/challenges';
 import FeaturedGallery from '@/components/FeaturedGallery';
+import UserMenu from '@/components/UserMenu';
 import type { Submission, SubmissionCategory } from '@/types/user';
 
 interface SubmissionWithChallenge extends Submission {
@@ -25,15 +26,27 @@ const categoryConfig = {
 
 export default function Feed() {
   const [submissions, setSubmissions] = useState<SubmissionWithChallenge[]>([]);
+  const [userSubmissions, setUserSubmissions] = useState<Submission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<SubmissionCategory | 'all'>('all');
+  const challenge = getTodaysChallenge();
 
   useEffect(() => {
-    // Try Supabase first, fallback to mock mode
-    getAllSubmissions()
-      .then(subs => {
-        // Enrich with challenge data
-        const enriched = subs.map(sub => {
+    // Check if user has any submissions first
+    const checkUserSubmissions = async () => {
+      try {
+        const userSubs = await getUserSubmissions();
+        setUserSubmissions(userSubs);
+
+        // If user has no submissions, show onboarding
+        if (userSubs.length === 0) {
+          setIsLoading(false);
+          return;
+        }
+
+        // User has submissions, load full feed
+        const allSubs = await getAllSubmissions();
+        const enriched = allSubs.map(sub => {
           const challenge = getChallengeById(sub.challengeId);
           return {
             ...sub,
@@ -41,26 +54,37 @@ export default function Feed() {
             challengeIcon: challenge?.icon,
           };
         });
-
         setSubmissions(enriched);
         setIsLoading(false);
-      })
-      .catch(error => {
-        console.warn('Supabase failed, using mock data:', error);
-        // Fallback to mock data
-        return getAllSubmissionsMock().then(subs => {
-          const enriched = subs.map(sub => {
-            const challenge = getChallengeById(sub.challengeId);
-            return {
-              ...sub,
-              challengeTitle: challenge?.title,
-              challengeIcon: challenge?.icon,
-            };
-          });
-          setSubmissions(enriched);
+      } catch (error) {
+        console.warn('Supabase failed, using mock mode:', error);
+
+        // Fallback to mock
+        const userSubs = await getUserSubmissionsMock();
+        setUserSubmissions(userSubs);
+
+        // If user has no submissions, show onboarding
+        if (userSubs.length === 0) {
           setIsLoading(false);
+          return;
+        }
+
+        // User has submissions, load full feed
+        const allSubs = await getAllSubmissionsMock();
+        const enriched = allSubs.map(sub => {
+          const challenge = getChallengeById(sub.challengeId);
+          return {
+            ...sub,
+            challengeTitle: challenge?.title,
+            challengeIcon: challenge?.icon,
+          };
         });
-      });
+        setSubmissions(enriched);
+        setIsLoading(false);
+      }
+    };
+
+    checkUserSubmissions();
   }, []);
 
   // Filter submissions by category
@@ -84,6 +108,9 @@ export default function Feed() {
 
   return (
     <div className="min-h-screen p-8 relative overflow-hidden">
+      {/* User menu */}
+      <UserMenu />
+
       {/* Floating background elements */}
       <motion.div
         className="absolute top-20 right-20 w-64 h-64 bg-jellyfish/10 blob"
@@ -187,28 +214,92 @@ export default function Feed() {
 
       {/* Feed */}
       <div className="relative z-10 max-w-7xl mx-auto">
-        {filteredSubmissions.length === 0 ? (
+        {userSubmissions.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass p-12 rounded-[40px] soft-shadow text-center max-w-2xl mx-auto"
+          >
+            <div className="text-7xl mb-6">👋</div>
+            <h2 className="text-3xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+              Welcome to human-first!
+            </h2>
+            <p className="text-xl text-ocean-white/90 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+              Complete your first challenge to unlock the community feed
+            </p>
+
+            <div className="bg-jellyfish-glow/20 rounded-3xl p-6 mb-8 text-left">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-3xl">{challenge.icon}</span>
+                <div>
+                  <p className="text-lg font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                    Today's Challenge: {challenge.title}
+                  </p>
+                  <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                    {challenge.description}
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-ocean-white/85 font-medium mb-3" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                🎯 What happens next:
+              </p>
+              <ul className="space-y-2 text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                <li className="flex items-start gap-2">
+                  <span>1️⃣</span>
+                  <span>Complete the challenge (2-5 minutes)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>2️⃣</span>
+                  <span>Upload your photo/video</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>3️⃣</span>
+                  <span>See the community feed & join the chat</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>4️⃣</span>
+                  <span>Start your daily streak 🔥</span>
+                </li>
+              </ul>
+            </div>
+
+            <motion.a
+              href="/daily"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block glass px-10 py-5 rounded-full text-xl font-bold text-ocean-white soft-shadow hover:glow transition-all mb-3"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+            >
+              {challenge.icon} Start Today's Challenge
+            </motion.a>
+
+            <p className="text-sm text-ocean-white/60 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+              Let's prove you're human!
+            </p>
+          </motion.div>
+        ) : filteredSubmissions.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="glass p-12 rounded-[40px] soft-shadow text-center"
           >
-            <div className="text-6xl mb-6">🌱</div>
+            <div className="text-6xl mb-6">🔍</div>
             <h2 className="text-2xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-              {selectedCategory === 'all' ? 'No submissions yet' : `No ${categoryConfig[selectedCategory as SubmissionCategory]?.label.toLowerCase()} submissions`}
+              No {categoryConfig[selectedCategory as SubmissionCategory]?.label.toLowerCase()} submissions yet
             </h2>
             <p className="text-ocean-white/85 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-              {selectedCategory === 'all' ? 'Be the first to complete today\'s challenge!' : 'Try selecting a different category'}
+              Try selecting a different category or be the first to post in this one!
             </p>
-            <motion.a
-              href="/daily"
+            <motion.button
+              onClick={() => setSelectedCategory('all')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-block glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
               style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
             >
-              Get Started
-            </motion.a>
+              View All Categories
+            </motion.button>
           </motion.div>
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">

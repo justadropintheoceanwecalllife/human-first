@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
 import { getOrCreateUser } from '@/lib/supabaseUserManager';
 import { getOrCreateUserMock } from '@/lib/mockUserManager';
+import UserMenu from '@/components/UserMenu';
 import {
   getChatMessages,
   sendChatMessage,
@@ -158,6 +159,9 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
+      {/* User menu */}
+      <UserMenu />
+
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-water-light/20 via-transparent to-jellyfish/10" />
 

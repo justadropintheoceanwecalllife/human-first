@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
 import { getOrCreateUser, addSubmission, updateStreak, uploadFile } from '@/lib/supabaseUserManager';
 import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock } from '@/lib/mockUserManager';
+import UserMenu from '@/components/UserMenu';
 import type { User } from '@/types/user';
 
 interface ValidationResult {
@@ -195,6 +196,9 @@ export default function DailyChallenge() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
+      {/* User menu */}
+      <UserMenu />
+
       {/* Floating background elements */}
       <motion.div
         className="absolute top-20 right-10 w-64 h-64 bg-sunset/20 blob"
