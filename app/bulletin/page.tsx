@@ -1,7 +1,11 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
+import { getAllBulletinPosts } from '@/lib/bulletinManager';
+import { getCurrentUser } from '@/lib/singpass';
+import { isBulletinAdmin } from '@/lib/adminConfig';
 import Header from '@/components/Header';
 
 const categoryColors = {
@@ -21,8 +25,24 @@ const categoryLabels = {
 };
 
 export default function Bulletin() {
-  const pinnedPosts = mockBulletinPosts.filter(p => p.isPinned);
-  const regularPosts = mockBulletinPosts.filter(p => !p.isPinned);
+  const [allPosts, setAllPosts] = useState<BulletinPost[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Load custom posts from localStorage and merge with mock posts
+    const customPosts = getAllBulletinPosts();
+    const combined = [...customPosts, ...mockBulletinPosts];
+    setAllPosts(combined);
+
+    // Check admin status
+    const user = getCurrentUser();
+    if (user && isBulletinAdmin(user.nric, user.email)) {
+      setIsAdmin(true);
+    }
+  }, []);
+
+  const pinnedPosts = allPosts.filter(p => p.isPinned);
+  const regularPosts = allPosts.filter(p => !p.isPinned);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -56,6 +76,23 @@ export default function Bulletin() {
           ease: "easeInOut"
         }}
       />
+
+      {/* Admin Controls */}
+      {isAdmin && (
+        <div className="relative z-10 max-w-5xl mx-auto mb-6">
+          <div className="flex justify-end">
+            <motion.a
+              href="/admin/bulletin"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all bg-jellyfish-pink/30 border-2 border-jellyfish-pink/60"
+              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+            >
+              🔧 Manage Posts
+            </motion.a>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto">
