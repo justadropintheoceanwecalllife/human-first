@@ -7,6 +7,13 @@ import { getOrCreateUser, addSubmission, updateStreak, uploadFile } from '@/lib/
 import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock } from '@/lib/mockUserManager';
 import type { User } from '@/types/user';
 
+interface ValidationResult {
+  isValid: boolean;
+  confidence: 'high' | 'medium' | 'low';
+  reasoning: string;
+  suggestion: string | null;
+}
+
 export default function DailyChallenge() {
   const [user, setUser] = useState<User | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -15,6 +22,8 @@ export default function DailyChallenge() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isMockMode, setIsMockMode] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
+  const [validation, setValidation] = useState<ValidationResult | null>(null);
 
   const challenge = getTodaysChallenge();
 
@@ -50,6 +59,48 @@ export default function DailyChallenge() {
     // Create preview URL
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
+
+    // Reset validation when new file is selected
+    setValidation(null);
+  };
+
+  const handleValidate = async () => {
+    if (!selectedFile || !previewUrl) return;
+
+    setIsValidating(true);
+
+    try {
+      // Convert file to base64 for API
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+
+        const response = await fetch('/api/validate-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            imageBase64: base64,
+            challengeTitle: challenge.title,
+            challengeDescription: challenge.description,
+            challengePrompt: challenge.prompt,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Validation failed');
+        }
+
+        const result = await response.json();
+        setValidation(result);
+        setIsValidating(false);
+      };
+
+      reader.readAsDataURL(selectedFile);
+    } catch (error) {
+      console.error('Validation error:', error);
+      alert('Failed to validate image. Please try again.');
+      setIsValidating(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -258,28 +309,98 @@ export default function DailyChallenge() {
                   onClick={() => {
                     setSelectedFile(null);
                     setPreviewUrl(null);
+                    setValidation(null);
                   }}
-                  className="text-sm text-water-dark hover:text-deep-sea underline"
+                  className="text-sm text-deep-sea-light hover:text-deep-sea underline font-medium"
                 >
                   Choose a different file
                 </button>
+
+                {/* Validation button and results */}
+                {!validation && !isValidating && (
+                  <motion.button
+                    onClick={handleValidate}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full glass px-8 py-4 rounded-full text-md font-semibold text-deep-sea soft-shadow hover:glow transition-all border-2 border-water/30"
+                  >
+                    🤖 Verify with AI
+                  </motion.button>
+                )}
+
+                {isValidating && (
+                  <div className="glass p-6 rounded-3xl soft-shadow text-center">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      className="text-4xl mb-3"
+                    >
+                      🤖
+                    </motion.div>
+                    <p className="text-deep-sea font-semibold">AI is checking your submission...</p>
+                  </div>
+                )}
+
+                {validation && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`p-6 rounded-3xl soft-shadow border-2 ${
+                      validation.isValid
+                        ? 'bg-moss/20 border-moss/40'
+                        : 'bg-sunset/20 border-sunset/40'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="text-3xl">
+                        {validation.isValid ? '✅' : '🤔'}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-bold text-deep-sea text-lg mb-1">
+                          {validation.isValid ? 'Looks good!' : 'Hmm...'}
+                        </p>
+                        <p className="text-deep-sea-light font-medium">
+                          {validation.reasoning}
+                        </p>
+                        {validation.suggestion && (
+                          <p className="text-deep-sea-light font-medium mt-2 italic">
+                            💡 {validation.suggestion}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    {!validation.isValid && (
+                      <button
+                        onClick={() => {
+                          setSelectedFile(null);
+                          setPreviewUrl(null);
+                          setValidation(null);
+                        }}
+                        className="text-sm text-deep-sea hover:text-deep-sea-light underline font-semibold"
+                      >
+                        Try again with a different photo
+                      </button>
+                    )}
+                  </motion.div>
+                )}
 
                 <textarea
                   value={caption}
                   onChange={(e) => setCaption(e.target.value)}
                   placeholder="Add a caption (optional)"
-                  className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none"
+                  className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none text-deep-sea placeholder:text-deep-sea-light/70"
                   rows={3}
                 />
 
                 <motion.button
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || (!validation && !isMockMode)}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full glass px-8 py-5 rounded-full text-lg font-semibold text-deep-sea soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  title={!validation && !isMockMode ? 'Please verify your image first' : ''}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit & Join the Humans'}
+                  {isSubmitting ? 'Submitting...' : validation?.isValid ? 'Submit & Join the Humans ✨' : 'Submit Anyway'}
                 </motion.button>
               </div>
             )}
