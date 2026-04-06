@@ -2,10 +2,14 @@
 
 import { motion } from 'framer-motion';
 import JellyfishAnimation from '@/components/JellyfishAnimation';
+import UserMenu from '@/components/UserMenu';
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
+      {/* User menu */}
+      <UserMenu />
+
       {/* Jellyfish animations */}
       <JellyfishAnimation />
 
