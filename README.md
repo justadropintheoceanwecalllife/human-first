@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# human-first
+
+> Work-life balance platform for GovTech - when AI is running, talk to humans; learn something new; touch grass
+
+## About
+
+**human-first** is a platform designed for GovTech Singapore to help employees maintain work-life balance in an AI-driven world. When your agents are executing, instead of doomscrolling, connect with real humans, complete hands-on tasks, and remember what it means to be human.
+
+### Core Features
+
+- 🌱 **Daily Challenges** - Prove you're human with hands-on tasks (photo of a plant, sunset, origami)
+- 💬 **Live Chatroom** - Drop in anytime to share what you made and learn from others
+- 🤖 **AI Facilitator** - An AI agent keeps the conversation flowing and connects people
+- 🎨 **Nature-Inspired Design** - Water, jellyfish, clouds - calming aesthetics for mindful breaks
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 14** (App Router)
+- **Tailwind CSS v4** (nature-inspired design system)
+- **Framer Motion** (fluid animations)
+- **Socket.io** (real-time chat - coming soon)
+- **Claude API** (AI facilitator - coming soon)
 
-## Learn More
+## Design System
 
-To learn more about Next.js, take a look at the following resources:
+Water/jellyfish/nature-inspired color palette:
+- Water blues: `#A8D5E2`, `#5B9AA9`, `#B8E6D5`
+- Jellyfish pink: `#FFB3D9`
+- Sunset orange: `#FFD4A3`
+- Organic shapes with floating animations
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+🚧 **In Development** - Built for GovTech Hackathon 2026
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with 💙 for GovTech Singapore
