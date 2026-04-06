@@ -15,8 +15,30 @@
 
 ## Getting Started
 
+### 1. Install dependencies
 ```bash
 npm install
+```
+
+### 2. Set up environment variables
+Create a `.env.local` file in the root directory:
+
+```bash
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=https://tuvacldzwafkblbkgkdp.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+
+# Anthropic (Claude API)
+NEXT_PUBLIC_ANTHROPIC_API_KEY=sk-ant-api03-...
+```
+
+Get your Claude API key from: https://console.anthropic.com/
+
+### 3. Set up Supabase database
+Follow the instructions in `SUPABASE_SETUP.md` to create the database tables.
+
+### 4. Run the development server
+```bash
 npm run dev
 ```
 
