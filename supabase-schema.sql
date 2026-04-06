@@ -23,7 +23,7 @@ create table if not exists public.submissions (
   challenge_id text not null,
   category text not null check (category in ('nature', 'workspace', 'food', 'creative', 'pets', 'selfcare', 'community')),
   image_url text not null,
-  caption text,
+  caption text not null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 

@@ -226,7 +226,7 @@ export async function addSubmission(
       challenge_id: challengeId,
       category: category,
       image_url: imageUrl,
-      caption: caption || null,
+      caption: caption,
     })
     .select()
     .single();

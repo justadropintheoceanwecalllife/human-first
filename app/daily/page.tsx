@@ -393,22 +393,36 @@ export default function DailyChallenge() {
                   </motion.div>
                 )}
 
-                <textarea
-                  value={caption}
-                  onChange={(e) => setCaption(e.target.value)}
-                  placeholder="Add a caption (optional)"
-                  className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none text-deep-sea font-medium placeholder:text-deep-sea-light/70"
-                  rows={3}
-                />
+                <div>
+                  <label className="block text-sm text-ocean-white/80 font-bold mb-2" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                    Caption <span className="text-sunset">*</span>
+                  </label>
+                  <textarea
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)}
+                    placeholder="Tell us about your submission... (required)"
+                    className="w-full p-4 rounded-2xl bg-white/50 border border-water/20 focus:border-water focus:outline-none resize-none text-deep-sea font-medium placeholder:text-deep-sea-light/70"
+                    rows={3}
+                    required
+                  />
+                  {!caption.trim() && (
+                    <p className="text-xs text-ocean-white/70 font-medium mt-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                      A caption is required to share your submission with the community
+                    </p>
+                  )}
+                </div>
 
                 <motion.button
                   onClick={handleSubmit}
-                  disabled={isSubmitting || (!validation && !isMockMode)}
+                  disabled={isSubmitting || (!validation && !isMockMode) || !caption.trim()}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className="w-full glass px-8 py-5 rounded-full text-lg font-bold text-ocean-white soft-shadow hover:glow transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-                  title={!validation && !isMockMode ? 'Please verify your image first' : ''}
+                  title={
+                    !caption.trim() ? 'Please add a caption' :
+                    !validation && !isMockMode ? 'Please verify your image first' : ''
+                  }
                 >
                   {isSubmitting ? 'Submitting...' : validation?.isValid ? 'Submit & Join the Humans ✨' : 'Submit Anyway'}
                 </motion.button>
