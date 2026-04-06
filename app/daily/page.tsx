@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
 import { getOrCreateUser, addSubmission, updateStreak, uploadFile } from '@/lib/supabaseUserManager';
+import { getOrCreateUserMock, addSubmissionMock, updateStreakMock, uploadFileMock } from '@/lib/mockUserManager';
 import type { User } from '@/types/user';
 
 export default function DailyChallenge() {
@@ -13,11 +14,19 @@ export default function DailyChallenge() {
   const [caption, setCaption] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isMockMode, setIsMockMode] = useState(false);
 
   const challenge = getTodaysChallenge();
 
   useEffect(() => {
-    getOrCreateUser().then(setUser).catch(console.error);
+    // Try Supabase first, fallback to mock mode if it fails
+    getOrCreateUser()
+      .then(setUser)
+      .catch(error => {
+        console.warn('Supabase failed, using mock mode:', error);
+        setIsMockMode(true);
+        return getOrCreateUserMock().then(setUser);
+      });
   }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,14 +58,17 @@ export default function DailyChallenge() {
     setIsSubmitting(true);
 
     try {
-      // Upload file to Supabase Storage
-      const imageUrl = await uploadFile(selectedFile);
-
-      // Add submission to database
-      await addSubmission(challenge.id, imageUrl, caption);
-
-      // Update streak
-      await updateStreak();
+      if (isMockMode) {
+        // Mock mode - use localStorage
+        const imageUrl = await uploadFileMock(selectedFile);
+        await addSubmissionMock(challenge.id, imageUrl, caption);
+        await updateStreakMock();
+      } else {
+        // Real mode - use Supabase
+        const imageUrl = await uploadFile(selectedFile);
+        await addSubmission(challenge.id, imageUrl, caption);
+        await updateStreak();
+      }
 
       setHasSubmitted(true);
     } catch (error) {
@@ -158,6 +170,18 @@ export default function DailyChallenge() {
 
       {/* Main content */}
       <main className="relative z-10 flex flex-col items-center gap-8 max-w-3xl w-full">
+        {isMockMode && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="glass px-6 py-3 rounded-full soft-shadow text-center"
+          >
+            <p className="text-sm text-sunset font-semibold">
+              🎭 Demo Mode - Using mock data (Supabase not connected)
+            </p>
+          </motion.div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

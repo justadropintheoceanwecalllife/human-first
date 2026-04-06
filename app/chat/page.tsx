@@ -4,12 +4,20 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
 import { getOrCreateUser } from '@/lib/supabaseUserManager';
+import { getOrCreateUserMock } from '@/lib/mockUserManager';
 import {
   getChatMessages,
   sendChatMessage,
   subscribeToChatMessages,
   type ChatMessage,
 } from '@/lib/chatManager';
+import {
+  getChatMessagesMock,
+  sendChatMessageMock,
+  subscribeToChatMessagesMock,
+  sendAiMessageMock,
+  generateAiResponseMock,
+} from '@/lib/mockChatManager';
 import type { User } from '@/types/user';
 
 export default function Chat() {
@@ -18,6 +26,7 @@ export default function Chat() {
   const [newMessage, setNewMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMockMode, setIsMockMode] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const challenge = getTodaysChallenge();
 
@@ -34,6 +43,7 @@ export default function Chat() {
   useEffect(() => {
     const init = async () => {
       try {
+        // Try Supabase first
         const currentUser = await getOrCreateUser();
         setUser(currentUser);
 
@@ -50,8 +60,25 @@ export default function Chat() {
           channel.unsubscribe();
         };
       } catch (error) {
-        console.error('Failed to initialize chat:', error);
+        console.warn('Supabase failed, using mock mode:', error);
+        setIsMockMode(true);
+
+        // Fallback to mock mode
+        const currentUser = await getOrCreateUserMock();
+        setUser(currentUser);
+
+        const existingMessages = await getChatMessagesMock(challenge.id);
+        setMessages(existingMessages);
         setIsLoading(false);
+
+        // Subscribe to mock updates
+        const channel = subscribeToChatMessagesMock(challenge.id, (newMsg) => {
+          setMessages(prev => [...prev, newMsg]);
+        });
+
+        return () => {
+          channel.unsubscribe();
+        };
       }
     };
 
@@ -64,22 +91,41 @@ export default function Chat() {
     setIsSending(true);
 
     try {
-      await sendChatMessage(
-        challenge.id,
-        user.anonymousId,
-        newMessage.trim(),
-        user.displayName
-      );
-      setNewMessage('');
+      if (isMockMode) {
+        // Mock mode
+        await sendChatMessageMock(
+          challenge.id,
+          user.anonymousId,
+          newMessage.trim(),
+          user.displayName
+        );
+        setNewMessage('');
 
-      // Trigger AI facilitator after every 5 messages
-      if (messages.length % 5 === 4) {
-        // Call AI facilitate API in background
-        fetch('/api/ai-facilitate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ challengeId: challenge.id }),
-        }).catch(console.error);
+        // Trigger mock AI after every 3 messages
+        if (messages.length % 3 === 2) {
+          setTimeout(async () => {
+            const aiResponse = await generateAiResponseMock(messages);
+            await sendAiMessageMock(challenge.id, aiResponse);
+          }, 1500);
+        }
+      } else {
+        // Real mode
+        await sendChatMessage(
+          challenge.id,
+          user.anonymousId,
+          newMessage.trim(),
+          user.displayName
+        );
+        setNewMessage('');
+
+        // Trigger AI facilitator after every 5 messages
+        if (messages.length % 5 === 4) {
+          fetch('/api/ai-facilitate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ challengeId: challenge.id }),
+          }).catch(console.error);
+        }
       }
     } catch (error) {
       console.error('Failed to send message:', error);

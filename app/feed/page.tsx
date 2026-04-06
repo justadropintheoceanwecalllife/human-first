@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getAllSubmissions } from '@/lib/supabaseUserManager';
+import { getAllSubmissionsMock } from '@/lib/mockUserManager';
 import { getChallengeById } from '@/lib/challenges';
 import type { Submission } from '@/types/user';
 
@@ -16,7 +17,7 @@ export default function Feed() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch all submissions from Supabase
+    // Try Supabase first, fallback to mock mode
     getAllSubmissions()
       .then(subs => {
         // Enrich with challenge data
@@ -33,8 +34,20 @@ export default function Feed() {
         setIsLoading(false);
       })
       .catch(error => {
-        console.error('Failed to load submissions:', error);
-        setIsLoading(false);
+        console.warn('Supabase failed, using mock data:', error);
+        // Fallback to mock data
+        return getAllSubmissionsMock().then(subs => {
+          const enriched = subs.map(sub => {
+            const challenge = getChallengeById(sub.challengeId);
+            return {
+              ...sub,
+              challengeTitle: challenge?.title,
+              challengeIcon: challenge?.icon,
+            };
+          });
+          setSubmissions(enriched);
+          setIsLoading(false);
+        });
       });
   }, []);
 
