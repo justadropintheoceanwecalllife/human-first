@@ -276,24 +276,58 @@ export default function Feed() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="glass p-12 rounded-[40px] soft-shadow text-center"
+            className="glass p-12 rounded-[40px] soft-shadow text-center max-w-2xl mx-auto"
           >
-            <div className="text-6xl mb-6">🔍</div>
+            <div className="text-6xl mb-6">
+              {selectedCategory === 'all' ? '🌱' : '🔍'}
+            </div>
             <h2 className="text-2xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-              No {categoryConfig[selectedCategory as SubmissionCategory]?.label.toLowerCase()} submissions yet
+              {selectedCategory === 'all'
+                ? 'Feed is quiet today'
+                : `No ${categoryConfig[selectedCategory as SubmissionCategory]?.label.toLowerCase()} submissions yet`}
             </h2>
-            <p className="text-ocean-white/85 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-              Try selecting a different category or be the first to post in this one!
+            <p className="text-xl text-ocean-white/90 font-medium mb-8" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+              {selectedCategory === 'all'
+                ? 'Be the first to share today!'
+                : 'Try a different category or be the first to post!'}
             </p>
-            <motion.button
-              onClick={() => setSelectedCategory('all')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-            >
-              View All Categories
-            </motion.button>
+
+            <div className="bg-jellyfish-glow/20 rounded-3xl p-6 mb-6 text-left">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-3xl">{challenge.icon}</span>
+                <div>
+                  <p className="text-lg font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                    Today's Challenge: {challenge.title}
+                  </p>
+                  <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                    {challenge.description}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <motion.a
+                href="/daily"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all bg-jellyfish-pink/30 border-2 border-jellyfish-pink/60"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+              >
+                📸 Complete Today's Challenge
+              </motion.a>
+              {selectedCategory !== 'all' && (
+                <motion.button
+                  onClick={() => setSelectedCategory('all')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+                  style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+                >
+                  View All Categories
+                </motion.button>
+              )}
+            </div>
           </motion.div>
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
