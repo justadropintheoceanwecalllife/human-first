@@ -2,17 +2,19 @@
 
 import { motion } from 'framer-motion';
 import JellyfishAnimation from '@/components/JellyfishAnimation';
-import UserMenu from '@/components/UserMenu';
+import HomeHeader from '@/components/HomeHeader';
 import Leaderboard from '@/components/Leaderboard';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8 relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Sticky Header */}
+      <HomeHeader />
 
       {/* Jellyfish animations */}
       <JellyfishAnimation />
+
+      <div className="flex flex-col items-center justify-center p-8">
 
       {/* Floating background elements */}
       <motion.div
@@ -127,53 +129,6 @@ export default function Home() {
           Get Started
         </motion.a>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="flex gap-4 flex-wrap justify-center"
-        >
-          <a
-            href="/hands-on"
-            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            Hands-On Activities
-          </a>
-          <span className="text-ocean-white/60">•</span>
-          <a
-            href="/feed"
-            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            Community Feed
-          </a>
-          <span className="text-ocean-white/60">•</span>
-          <a
-            href="/chat"
-            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            Live Chat
-          </a>
-          <span className="text-ocean-white/60">•</span>
-          <a
-            href="/leaderboard"
-            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            Leaderboard
-          </a>
-          <span className="text-ocean-white/60">•</span>
-          <a
-            href="/bulletin"
-            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            Bulletin Board
-          </a>
-        </motion.div>
-
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -188,6 +143,7 @@ export default function Home() {
       {/* Leaderboard */}
       <div className="relative z-10 mt-16 px-8 pb-12 w-full">
         <Leaderboard />
+      </div>
       </div>
     </div>
   );
