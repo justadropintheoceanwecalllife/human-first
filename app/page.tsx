@@ -21,7 +21,7 @@ export default function Home() {
       {/* Jellyfish animations */}
       <JellyfishAnimation />
 
-      <div className={`flex flex-col items-center p-8 ${isUserVerified ? 'justify-start pt-20' : 'justify-center'}`}>
+      <div className={`flex flex-col items-center ${isUserVerified ? 'justify-start pt-12 pb-12 px-8' : 'justify-center p-8'}`}>
 
       {/* Floating background elements */}
       <motion.div
@@ -62,24 +62,26 @@ export default function Home() {
       />
 
       {/* Main content */}
-      <main className="relative z-10 flex flex-col items-center gap-12 max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <h1 className="text-7xl font-bold mb-6 text-ocean-white" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-            human-first
-          </h1>
-          <p className="text-2xl text-ocean-white mb-4 font-semibold" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            Stay human in an AI-powered world
-          </p>
-          <p className="text-lg text-ocean-white/90 font-medium max-w-2xl mx-auto" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            Connect with colleagues, learn hands-on skills, and balance work with life.
-            While AI handles your tasks, invest in what makes you human.
-          </p>
-        </motion.div>
+      <main className={`relative z-10 flex flex-col items-center max-w-4xl ${isUserVerified ? 'gap-6' : 'gap-12'}`}>
+        {!isUserVerified && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <h1 className="text-7xl font-bold mb-6 text-ocean-white" style={{ textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
+              human-first
+            </h1>
+            <p className="text-2xl text-ocean-white mb-4 font-semibold" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+              Stay human in an AI-powered world
+            </p>
+            <p className="text-lg text-ocean-white/90 font-medium max-w-2xl mx-auto" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+              Connect with colleagues, learn hands-on skills, and balance work with life.
+              While AI handles your tasks, invest in what makes you human.
+            </p>
+          </motion.div>
+        )}
 
         {!isUserVerified && (
           <motion.div
