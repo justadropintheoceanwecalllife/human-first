@@ -106,3 +106,7 @@ export function logout(): void {
 export function getMockNRICs(): string[] {
   return Object.keys(MOCK_USERS);
 }
+
+export function getMockUsers(): Record<string, SingpassUser> {
+  return MOCK_USERS;
+}
