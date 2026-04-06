@@ -41,7 +41,7 @@ export default function UserMenu() {
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            className="absolute right-0 mt-2 glass p-6 rounded-3xl soft-shadow min-w-[280px]"
+            className="absolute right-0 mt-2 glass p-6 rounded-3xl soft-shadow min-w-[280px] z-[100]"
           >
             <div className="mb-4 pb-4 border-b border-ocean-white/20">
               <p className="text-sm text-ocean-white/70 font-medium mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
