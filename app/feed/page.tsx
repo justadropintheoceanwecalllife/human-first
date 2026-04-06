@@ -7,7 +7,7 @@ import { getAllSubmissionsMock, getUserSubmissionsMock } from '@/lib/mockUserMan
 import { getChallengeById, getTodaysChallenge } from '@/lib/challenges';
 import { isVerified } from '@/lib/singpass';
 import FeaturedGallery from '@/components/FeaturedGallery';
-import UserMenu from '@/components/UserMenu';
+import Header from '@/components/Header';
 import type { Submission, SubmissionCategory } from '@/types/user';
 
 interface SubmissionWithChallenge extends Submission {
@@ -101,10 +101,11 @@ export default function Feed() {
   }
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Header */}
+      <Header icon="💬" title="Community Feed" />
 
+      <div className="p-8">
       {/* Floating background elements */}
       <motion.div
         className="absolute top-20 right-20 w-64 h-64 bg-jellyfish/10 blob"
@@ -421,6 +422,7 @@ export default function Feed() {
           ← Back to home
         </a>
       </motion.div>
+      </div>
     </div>
   );
 }

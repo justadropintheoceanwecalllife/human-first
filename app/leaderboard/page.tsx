@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getCurrentUser, type SingpassUser } from '@/lib/singpass';
-import UserMenu from '@/components/UserMenu';
+import Header from '@/components/Header';
 
 interface LeaderboardUser {
   displayName: string;
@@ -64,29 +64,9 @@ export default function LeaderboardPage() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Header */}
-      <div className="sticky top-0 z-50 glass border-b border-ocean-white/20 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <a
-              href="/"
-              className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-ocean-white/20 transition-colors"
-            >
-              <span className="text-ocean-white text-xl">←</span>
-            </a>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-jellyfish-pink/30 flex items-center justify-center text-xl">
-                🏆
-              </div>
-              <span className="text-xl font-bold text-ocean-white" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-                human-first
-              </span>
-            </div>
-          </div>
-          <UserMenu />
-        </div>
-      </div>
+      <Header icon="🏆" title="Leaderboard" />
 
-      <div className="p-8">{/* User menu removed - now in header */}
+      <div className="p-8">
 
       {/* Floating background elements */}
       <motion.div

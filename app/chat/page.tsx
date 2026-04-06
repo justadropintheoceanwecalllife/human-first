@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
 import { getOrCreateUser } from '@/lib/supabaseUserManager';
 import { getOrCreateUserMock } from '@/lib/mockUserManager';
-import UserMenu from '@/components/UserMenu';
+import Header from '@/components/Header';
 import {
   getChatMessages,
   sendChatMessage,
@@ -159,8 +159,8 @@ export default function Chat() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+      {/* Header */}
+      <Header icon="💬" title="Live Chat" />
 
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-water-light/20 via-transparent to-jellyfish/10" />
@@ -178,48 +178,6 @@ export default function Chat() {
           ease: "easeInOut"
         }}
       />
-
-      {/* Header */}
-      <div className="relative z-10 p-6 border-b border-water/20 glass">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-3xl font-bold text-ocean-white flex items-center gap-3" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-                <span className="text-4xl">{challenge.icon}</span>
-                Live Chat
-              </h1>
-              <p className="text-ocean-white/85 font-medium mt-1" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-                Today's challenge: {challenge.title}
-              </p>
-            </div>
-            <div className="flex gap-3">
-              <motion.a
-                href="/daily"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="glass px-5 py-2 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
-                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-              >
-                📸 Challenge
-              </motion.a>
-              <motion.a
-                href="/feed"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="glass px-5 py-2 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
-                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-              >
-                🎨 Feed
-              </motion.a>
-            </div>
-          </div>
-          {user && (
-            <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
-              Chatting as <span className="font-bold text-ocean-white">{user.displayName}</span>
-            </p>
-          )}
-        </div>
-      </div>
 
       {/* Messages */}
       <div className="relative z-10 flex-1 overflow-y-auto p-6">

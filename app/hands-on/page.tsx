@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { mockActivities, categoryConfig, type Activity, type ActivityCategory } from '@/types/activity';
-import UserMenu from '@/components/UserMenu';
+import Header from '@/components/Header';
 
 export default function HandsOnPage() {
   const [selectedCategory, setSelectedCategory] = useState<ActivityCategory | 'all'>('all');
@@ -24,10 +24,11 @@ export default function HandsOnPage() {
   });
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Header */}
+      <Header icon="🎯" title="Hands-On Activities" />
 
+      <div className="p-8">
       {/* Floating background elements */}
       <motion.div
         className="absolute top-20 right-20 w-64 h-64 bg-coral/10 blob"
@@ -192,6 +193,7 @@ export default function HandsOnPage() {
           ← Back to home
         </a>
       </motion.div>
+      </div>
 
       {/* Add Activity Modal */}
       <AddActivityModal show={showAddModal} onClose={() => setShowAddModal(false)} />

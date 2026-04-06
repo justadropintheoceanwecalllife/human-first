@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
-import UserMenu from '@/components/UserMenu';
+import Header from '@/components/Header';
 
 const categoryColors = {
   sig: 'bg-jellyfish-pink/30 border-jellyfish-pink/50',
@@ -25,9 +25,11 @@ export default function Bulletin() {
   const regularPosts = mockBulletinPosts.filter(p => !p.isPinned);
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Header */}
+      <Header icon="📌" title="Bulletin Board" />
+
+      <div className="p-8">
 
       {/* Floating background elements */}
       <motion.div
@@ -140,6 +142,7 @@ export default function Bulletin() {
           ← Back to home
         </a>
       </motion.div>
+      </div>
     </div>
   );
 }
