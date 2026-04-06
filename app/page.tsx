@@ -21,7 +21,7 @@ export default function Home() {
       {/* Jellyfish animations */}
       <JellyfishAnimation />
 
-      <div className="flex flex-col items-center justify-center p-8">
+      <div className={`flex flex-col items-center p-8 ${isUserVerified ? 'justify-start pt-20' : 'justify-center'}`}>
 
       {/* Floating background elements */}
       <motion.div
