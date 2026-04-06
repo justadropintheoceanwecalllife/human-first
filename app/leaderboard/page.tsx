@@ -62,9 +62,31 @@ export default function LeaderboardPage() {
   }, []);
 
   return (
-    <div className="min-h-screen p-8 relative overflow-hidden">
-      {/* User menu */}
-      <UserMenu />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Header */}
+      <div className="sticky top-0 z-50 glass border-b border-ocean-white/20 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <a
+              href="/"
+              className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-ocean-white/20 transition-colors"
+            >
+              <span className="text-ocean-white text-xl">←</span>
+            </a>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-jellyfish-pink/30 flex items-center justify-center text-xl">
+                🏆
+              </div>
+              <span className="text-xl font-bold text-ocean-white" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+                human-first
+              </span>
+            </div>
+          </div>
+          <UserMenu />
+        </div>
+      </div>
+
+      <div className="p-8">{/* User menu removed - now in header */}
 
       {/* Floating background elements */}
       <motion.div
@@ -267,22 +289,7 @@ export default function LeaderboardPage() {
           )}
         </div>
       </div>
-
-      {/* Back to home */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="relative z-10 text-center mt-12 pb-8"
-      >
-        <a
-          href="/"
-          className="text-sm text-ocean-white/80 font-medium hover:text-ocean-white underline"
-          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-        >
-          ← Back to home
-        </a>
-      </motion.div>
+      </div>
     </div>
   );
 }

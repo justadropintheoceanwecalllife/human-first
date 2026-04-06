@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { mockActivities, categoryConfig, type Activity, type ActivityCategory } from '@/types/activity';
 import UserMenu from '@/components/UserMenu';
-import Leaderboard from '@/components/Leaderboard';
 
 export default function HandsOnPage() {
   const [selectedCategory, setSelectedCategory] = useState<ActivityCategory | 'all'>('all');
@@ -176,11 +175,6 @@ export default function HandsOnPage() {
             <ActivityCard key={activity.id} activity={activity} index={index} />
           ))}
         </div>
-      </div>
-
-      {/* Leaderboard */}
-      <div className="relative z-10 mt-16 px-8">
-        <Leaderboard />
       </div>
 
       {/* Back to home */}

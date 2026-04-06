@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
 import UserMenu from '@/components/UserMenu';
-import Leaderboard from '@/components/Leaderboard';
 
 const categoryColors = {
   sig: 'bg-jellyfish-pink/30 border-jellyfish-pink/50',
@@ -124,11 +123,6 @@ export default function Bulletin() {
             <PostCard key={post.id} post={post} index={index + pinnedPosts.length} />
           ))}
         </div>
-      </div>
-
-      {/* Leaderboard */}
-      <div className="relative z-10 mt-16 px-8">
-        <Leaderboard />
       </div>
 
       {/* Back to home */}
