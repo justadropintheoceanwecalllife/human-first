@@ -6,16 +6,27 @@ import { getAllSubmissions } from '@/lib/supabaseUserManager';
 import { getAllSubmissionsMock } from '@/lib/mockUserManager';
 import { getChallengeById } from '@/lib/challenges';
 import FeaturedGallery from '@/components/FeaturedGallery';
-import type { Submission } from '@/types/user';
+import type { Submission, SubmissionCategory } from '@/types/user';
 
 interface SubmissionWithChallenge extends Submission {
   challengeTitle?: string;
   challengeIcon?: string;
 }
 
+const categoryConfig = {
+  nature: { label: 'Nature & Plants', icon: '🌿', color: 'bg-water-foam/40 border-water-foam/60' },
+  workspace: { label: 'Workspace', icon: '💻', color: 'bg-jellyfish-purple/30 border-jellyfish-purple/50' },
+  food: { label: 'Food & Drinks', icon: '☕', color: 'bg-sunset/30 border-sunset/50' },
+  creative: { label: 'Creative', icon: '🎨', color: 'bg-coral/30 border-coral/50' },
+  pets: { label: 'Pets', icon: '🐾', color: 'bg-jellyfish-pink/30 border-jellyfish-pink/50' },
+  selfcare: { label: 'Self-Care', icon: '💆', color: 'bg-lavender/30 border-lavender/50' },
+  community: { label: 'Community', icon: '👥', color: 'bg-jellyfish-glow/40 border-jellyfish-glow/60' },
+};
+
 export default function Feed() {
   const [submissions, setSubmissions] = useState<SubmissionWithChallenge[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<SubmissionCategory | 'all'>('all');
 
   useEffect(() => {
     // Try Supabase first, fallback to mock mode
@@ -51,6 +62,11 @@ export default function Feed() {
         });
       });
   }, []);
+
+  // Filter submissions by category
+  const filteredSubmissions = selectedCategory === 'all'
+    ? submissions
+    : submissions.filter(sub => sub.category === selectedCategory);
 
   if (isLoading) {
     return (
@@ -129,11 +145,49 @@ export default function Feed() {
             💬 Join Chat
           </motion.a>
         </div>
+
+        {/* Category filters */}
+        <div className="mb-8">
+          <p className="text-sm text-ocean-white/80 font-medium text-center mb-4" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+            Filter by category
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <motion.button
+              onClick={() => setSelectedCategory('all')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-5 py-2 rounded-full font-bold text-sm transition-all ${
+                selectedCategory === 'all'
+                  ? 'glass border-2 border-ocean-white/60 text-ocean-white soft-shadow'
+                  : 'glass text-ocean-white/80 border border-ocean-white/30'
+              }`}
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+            >
+              ✨ All
+            </motion.button>
+            {(Object.entries(categoryConfig) as [SubmissionCategory, typeof categoryConfig[SubmissionCategory]][]).map(([key, config]) => (
+              <motion.button
+                key={key}
+                onClick={() => setSelectedCategory(key)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`px-5 py-2 rounded-full font-bold text-sm transition-all ${
+                  selectedCategory === key
+                    ? `glass border-2 ${config.color} text-ocean-white soft-shadow`
+                    : 'glass text-ocean-white/80 border border-ocean-white/30'
+                }`}
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+              >
+                {config.icon} {config.label}
+              </motion.button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Feed */}
       <div className="relative z-10 max-w-7xl mx-auto">
-        {submissions.length === 0 ? (
+        {filteredSubmissions.length === 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -141,10 +195,10 @@ export default function Feed() {
           >
             <div className="text-6xl mb-6">🌱</div>
             <h2 className="text-2xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-              No submissions yet
+              {selectedCategory === 'all' ? 'No submissions yet' : `No ${categoryConfig[selectedCategory as SubmissionCategory]?.label.toLowerCase()} submissions`}
             </h2>
             <p className="text-ocean-white/85 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-              Be the first to complete today's challenge!
+              {selectedCategory === 'all' ? 'Be the first to complete today\'s challenge!' : 'Try selecting a different category'}
             </p>
             <motion.a
               href="/daily"
@@ -158,7 +212,7 @@ export default function Feed() {
           </motion.div>
         ) : (
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-            {submissions.map((submission, index) => (
+            {filteredSubmissions.map((submission, index) => (
               <motion.div
                 key={submission.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -168,23 +222,30 @@ export default function Feed() {
               >
                 <div className="glass p-6 rounded-3xl soft-shadow hover:glow transition-all">
                   {/* Challenge info */}
-                  <div className="flex items-center gap-3 mb-4">
-                    {submission.challengeIcon && (
-                      <span className="text-3xl">{submission.challengeIcon}</span>
-                    )}
-                    <div>
-                      <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-                        {submission.challengeTitle || 'Challenge'}
-                      </p>
-                      <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
-                        {new Date(submission.createdAt).toLocaleDateString('en-SG', {
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
-                      </p>
+                  <div className="mb-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      {submission.challengeIcon && (
+                        <span className="text-3xl">{submission.challengeIcon}</span>
+                      )}
+                      <div className="flex-1">
+                        <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                          {submission.challengeTitle || 'Challenge'}
+                        </p>
+                        <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                          {new Date(submission.createdAt).toLocaleDateString('en-SG', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
                     </div>
+                    {/* Category badge */}
+                    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${categoryConfig[submission.category].color}`} style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
+                      <span>{categoryConfig[submission.category].icon}</span>
+                      <span className="text-ocean-white">{categoryConfig[submission.category].label}</span>
+                    </span>
                   </div>
 
                   {/* Image/Video */}

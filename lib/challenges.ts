@@ -1,3 +1,5 @@
+import type { SubmissionCategory } from '@/types/user';
+
 export interface Challenge {
   id: string;
   title: string;
@@ -153,4 +155,28 @@ export function getChallengeById(id: string): Challenge | undefined {
  */
 export function getChallengesByCategory(category: Challenge['category']): Challenge[] {
   return challenges.filter(c => c.category === category);
+}
+
+/**
+ * Map challenge ID to submission category
+ */
+export function getSubmissionCategory(challengeId: string): SubmissionCategory {
+  const categoryMap: Record<string, SubmissionCategory> = {
+    'plant-photo': 'nature',
+    'sky-view': 'nature',
+    'walk-100': 'nature',
+    'origami': 'creative',
+    'doodle': 'creative',
+    'paper-airplane': 'creative',
+    'new-word': 'selfcare',
+    'brew-method': 'food',
+    'compliment': 'community',
+    'lunch-story': 'food',
+    'made-smile': 'selfcare',
+    'favorite-mug': 'food',
+    'desk-view': 'workspace',
+    'phone-wallpaper': 'selfcare',
+  };
+
+  return categoryMap[challengeId] || 'selfcare';
 }

@@ -1,6 +1,7 @@
 import { supabase } from './supabase';
 import { User, Submission } from '@/types/user';
 import { generateAnonymousName, generateAnonymousId } from './nameGenerator';
+import { getSubmissionCategory } from './challenges';
 
 const USER_STORAGE_KEY = 'human-first-user-id';
 
@@ -216,11 +217,14 @@ export async function addSubmission(
   const userId = await getUserId();
   if (!userId) throw new Error('No user found');
 
+  const category = getSubmissionCategory(challengeId);
+
   const { data, error } = await supabase
     .from('submissions')
     .insert({
       user_id: userId,
       challenge_id: challengeId,
+      category: category,
       image_url: imageUrl,
       caption: caption || null,
     })
@@ -236,6 +240,7 @@ export async function addSubmission(
     id: data.id,
     userId: data.user_id,
     challengeId: data.challenge_id,
+    category: data.category,
     imageUrl: data.image_url,
     caption: data.caption || '',
     createdAt: data.created_at,
@@ -261,6 +266,7 @@ export async function getAllSubmissions(): Promise<Submission[]> {
     id: sub.id,
     userId: sub.user_id,
     challengeId: sub.challenge_id,
+    category: sub.category,
     imageUrl: sub.image_url,
     caption: sub.caption || '',
     createdAt: sub.created_at,
@@ -289,6 +295,7 @@ export async function getUserSubmissions(): Promise<Submission[]> {
     id: sub.id,
     userId: sub.user_id,
     challengeId: sub.challenge_id,
+    category: sub.category,
     imageUrl: sub.image_url,
     caption: sub.caption || '',
     createdAt: sub.created_at,

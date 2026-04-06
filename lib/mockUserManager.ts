@@ -1,6 +1,7 @@
 import { User, Submission } from '@/types/user';
 import { generateAnonymousName, generateAnonymousId } from './nameGenerator';
 import { mockSubmissions, mockUsers } from './mockData';
+import { getSubmissionCategory } from './challenges';
 
 const USER_STORAGE_KEY = 'mock-user';
 const SUBMISSIONS_STORAGE_KEY = 'mock-submissions';
@@ -115,6 +116,7 @@ export async function addSubmissionMock(
     id: `sub-${Date.now()}`,
     userId: user.anonymousId,
     challengeId,
+    category: getSubmissionCategory(challengeId),
     imageUrl,
     caption,
     createdAt: new Date().toISOString(),

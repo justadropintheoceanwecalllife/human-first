@@ -21,6 +21,7 @@ create table if not exists public.submissions (
   id uuid primary key default uuid_generate_v4(),
   user_id uuid references public.users(id) on delete cascade not null,
   challenge_id text not null,
+  category text not null check (category in ('nature', 'workspace', 'food', 'creative', 'pets', 'selfcare', 'community')),
   image_url text not null,
   caption text,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
@@ -39,6 +40,7 @@ create table if not exists public.chat_messages (
 -- Indexes for performance
 create index if not exists submissions_user_id_idx on public.submissions(user_id);
 create index if not exists submissions_challenge_id_idx on public.submissions(challenge_id);
+create index if not exists submissions_category_idx on public.submissions(category);
 create index if not exists submissions_created_at_idx on public.submissions(created_at desc);
 create index if not exists chat_messages_challenge_id_idx on public.chat_messages(challenge_id);
 create index if not exists chat_messages_created_at_idx on public.chat_messages(created_at desc);

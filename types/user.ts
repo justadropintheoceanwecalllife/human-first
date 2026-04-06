@@ -8,10 +8,20 @@ export interface User {
   streakCount: number;
 }
 
+export type SubmissionCategory =
+  | 'nature'
+  | 'workspace'
+  | 'food'
+  | 'creative'
+  | 'pets'
+  | 'selfcare'
+  | 'community';
+
 export interface Submission {
   id: string;
   userId: string;
   challengeId: string;
+  category: SubmissionCategory;
   imageUrl: string;
   caption: string;
   createdAt: string;
