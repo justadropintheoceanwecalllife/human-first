@@ -77,7 +77,7 @@ export default function LoginPage() {
             human-first
           </h1>
           <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            When AI is running, talk to humans
+            Stay human in an AI-powered world
           </p>
         </motion.div>
 

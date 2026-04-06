@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "human-first | GovTech Work-Life Balance",
-  description: "When AI is running, talk to humans. A space to reconnect with what matters while your agents execute.",
+  description: "Stay human in an AI-powered world. Connect with colleagues, learn hands-on skills, and balance work with life at GovTech Singapore.",
 };
 
 export default function RootLayout({

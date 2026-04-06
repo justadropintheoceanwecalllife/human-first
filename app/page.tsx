@@ -64,11 +64,11 @@ export default function Home() {
             human-first
           </h1>
           <p className="text-2xl text-ocean-white mb-4 font-semibold" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            When AI is running, talk to humans
+            Stay human in an AI-powered world
           </p>
           <p className="text-lg text-ocean-white/90 font-medium max-w-2xl mx-auto" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            A space to reconnect with what matters while your agents execute.
-            Learn something new, touch grass, and remember you're human.
+            Connect with colleagues, learn hands-on skills, and balance work with life.
+            While AI handles your tasks, invest in what makes you human.
           </p>
         </motion.div>
 
