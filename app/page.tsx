@@ -6,12 +6,17 @@ import JellyfishAnimation from '@/components/JellyfishAnimation';
 import HomeHeader from '@/components/HomeHeader';
 import Leaderboard from '@/components/Leaderboard';
 import { isVerified } from '@/lib/singpass';
+import { hasCompletedTodaysChallenge } from '@/lib/userManager';
+import { getTodaysChallenge } from '@/lib/challenges';
 
 export default function Home() {
   const [isUserVerified, setIsUserVerified] = useState(false);
+  const [isDailyChallengeComplete, setIsDailyChallengeComplete] = useState(false);
 
   useEffect(() => {
     setIsUserVerified(isVerified());
+    const todaysChallenge = getTodaysChallenge();
+    setIsDailyChallengeComplete(hasCompletedTodaysChallenge(todaysChallenge.id));
   }, []);
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -21,7 +26,7 @@ export default function Home() {
       {/* Jellyfish animations */}
       <JellyfishAnimation />
 
-      <div className={`flex flex-col items-center ${isUserVerified ? 'justify-start pt-12 pb-12 px-8' : 'justify-center p-8'}`}>
+      <div className={`flex flex-col items-center ${isUserVerified ? 'justify-center min-h-[calc(100vh-80px)] p-8' : 'justify-center p-8'}`}>
 
       {/* Floating background elements */}
       <motion.div
@@ -62,7 +67,7 @@ export default function Home() {
       />
 
       {/* Main content */}
-      <main className={`relative z-10 flex flex-col items-center max-w-4xl ${isUserVerified ? 'gap-6' : 'gap-12'}`}>
+      <main className={`relative z-10 flex flex-col items-center max-w-4xl w-full ${isUserVerified ? 'gap-8' : 'gap-12'}`}>
         {!isUserVerified && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -135,36 +140,77 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="glass p-8 rounded-[40px] soft-shadow text-center max-w-2xl"
+            className="glass p-12 rounded-[40px] soft-shadow text-center w-full"
           >
-            <div className="text-5xl mb-4">✨</div>
-            <h2 className="text-2xl font-bold text-ocean-white mb-3" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+            <div className="text-7xl mb-6">✨</div>
+            <h2 className="text-4xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
               Welcome back!
             </h2>
-            <p className="text-lg text-ocean-white/85 font-medium mb-6" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+            <p className="text-xl text-ocean-white/85 font-medium mb-10 max-w-2xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
               Explore activities, connect with the community, or check today's challenge
             </p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              <a
-                href="/daily"
-                className="glass px-6 py-3 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
-                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
-              >
-                📸 Daily Challenge
-              </a>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+              {/* Daily Challenge */}
+              {isDailyChallengeComplete ? (
+                <div
+                  className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white/50 soft-shadow opacity-60 cursor-not-allowed relative"
+                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+                >
+                  <div className="absolute top-3 right-3 text-2xl">✓</div>
+                  <div className="text-4xl mb-3 opacity-50">📸</div>
+                  <div className="text-lg mb-2">Daily Challenge</div>
+                  <p className="text-xs text-ocean-white/40 font-medium">Today's challenge completed!</p>
+                </div>
+              ) : (
+                <a
+                  href="/daily"
+                  className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white soft-shadow hover:glow transition-all"
+                  style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+                >
+                  <div className="text-4xl mb-3">📸</div>
+                  <div className="text-lg mb-2">Daily Challenge</div>
+                  <p className="text-xs text-ocean-white/70 font-medium">Complete today's hands-on task</p>
+                </a>
+              )}
+
               <a
                 href="/hands-on"
-                className="glass px-6 py-3 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
+                className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white soft-shadow hover:glow transition-all"
                 style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
               >
-                🎯 Activities
+                <div className="text-4xl mb-3">🎯</div>
+                <div className="text-lg mb-2">Activities</div>
+                <p className="text-xs text-ocean-white/70 font-medium">Explore hands-on experiences</p>
               </a>
+
               <a
-                href="/feed"
-                className="glass px-6 py-3 rounded-full font-bold text-ocean-white text-sm soft-shadow hover:glow transition-all"
+                href="/gallery"
+                className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white soft-shadow hover:glow transition-all"
                 style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
               >
-                🎨 Gallery
+                <div className="text-4xl mb-3">🎨</div>
+                <div className="text-lg mb-2">Gallery</div>
+                <p className="text-xs text-ocean-white/70 font-medium">See community submissions</p>
+              </a>
+
+              <a
+                href="/chat"
+                className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white soft-shadow hover:glow transition-all"
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+              >
+                <div className="text-4xl mb-3">💭</div>
+                <div className="text-lg mb-2">Chat</div>
+                <p className="text-xs text-ocean-white/70 font-medium">Connect with the community</p>
+              </a>
+
+              <a
+                href="/bulletin"
+                className="glass px-8 py-6 rounded-3xl font-bold text-ocean-white soft-shadow hover:glow transition-all"
+                style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+              >
+                <div className="text-4xl mb-3">📌</div>
+                <div className="text-lg mb-2">Bulletin</div>
+                <p className="text-xs text-ocean-white/70 font-medium">View announcements & events</p>
               </a>
             </div>
           </motion.div>

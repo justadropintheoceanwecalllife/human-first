@@ -494,11 +494,11 @@ export default function DailyChallenge() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="/feed"
+              href="/gallery"
               className="text-ocean-white/80 font-semibold hover:text-ocean-white underline text-sm"
               style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
             >
-              Community Feed
+              Community Gallery
             </a>
             <span className="text-ocean-white/60 hidden sm:inline">•</span>
             <a

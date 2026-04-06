@@ -258,8 +258,8 @@ export async function getAllSubmissions(): Promise<Submission[]> {
     .limit(50);
 
   if (error) {
-    console.error('Failed to fetch submissions:', error);
-    return [];
+    console.warn('Supabase fetch failed (expected in demo mode):', error.message);
+    throw error; // Throw to trigger fallback to mock data
   }
 
   return data.map(sub => ({

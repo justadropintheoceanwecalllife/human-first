@@ -187,3 +187,16 @@ export function awardBadge(badge: Omit<Badge, 'earnedAt'>): Badge {
 
   return newBadge;
 }
+
+/**
+ * Check if user has completed today's challenge
+ */
+export function hasCompletedTodaysChallenge(todayChallengeId: string): boolean {
+  const submissions = getUserSubmissions();
+  const today = new Date().toDateString();
+
+  return submissions.some(sub => {
+    const subDate = new Date(sub.createdAt).toDateString();
+    return sub.challengeId === todayChallengeId && subDate === today;
+  });
+}
