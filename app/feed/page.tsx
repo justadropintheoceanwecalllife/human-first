@@ -103,7 +103,7 @@ export default function Feed() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Header */}
-      <Header icon="💬" title="Community Feed" />
+      <Header icon="🎨" title="Community Gallery" />
 
       <div className="p-8">
       {/* Floating background elements */}
@@ -140,10 +140,10 @@ export default function Feed() {
           className="text-center mb-8"
         >
           <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            Community Feed
+            Community Gallery
           </h1>
           <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            See what humans are making today
+            See what humans are creating today
           </p>
         </motion.div>
 

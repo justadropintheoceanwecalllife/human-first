@@ -9,7 +9,7 @@ export default function HomeHeader() {
   const navLinks = [
     { href: '/daily', label: '📸 Daily', icon: '📸' },
     { href: '/hands-on', label: '🎯 Activities', icon: '🎯' },
-    { href: '/feed', label: '💬 Feed', icon: '💬' },
+    { href: '/feed', label: '🎨 Gallery', icon: '🎨' },
     { href: '/chat', label: '💭 Chat', icon: '💭' },
     { href: '/leaderboard', label: '🏆 Leaderboard', icon: '🏆' },
     { href: '/bulletin', label: '📌 Bulletin', icon: '📌' },
