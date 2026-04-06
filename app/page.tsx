@@ -117,6 +117,34 @@ export default function Home() {
           Get Started
         </motion.a>
 
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="flex gap-4 flex-wrap justify-center"
+        >
+          <a
+            href="/feed"
+            className="text-deep-sea-light font-semibold hover:text-deep-sea transition-colors underline"
+          >
+            Community Feed
+          </a>
+          <span className="text-deep-sea-light">•</span>
+          <a
+            href="/chat"
+            className="text-deep-sea-light font-semibold hover:text-deep-sea transition-colors underline"
+          >
+            Live Chat
+          </a>
+          <span className="text-deep-sea-light">•</span>
+          <a
+            href="/bulletin"
+            className="text-deep-sea-light font-semibold hover:text-deep-sea transition-colors underline"
+          >
+            Bulletin Board
+          </a>
+        </motion.div>
+
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
