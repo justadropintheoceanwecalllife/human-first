@@ -54,10 +54,10 @@ export default function Home() {
           <h1 className="text-7xl font-bold mb-6 text-deep-sea">
             human-first
           </h1>
-          <p className="text-2xl text-water-dark mb-4">
+          <p className="text-2xl text-deep-sea-light mb-4 font-semibold">
             When AI is running, talk to humans
           </p>
-          <p className="text-lg text-water opacity-80 max-w-2xl mx-auto">
+          <p className="text-lg text-deep-sea-light font-medium max-w-2xl mx-auto">
             A space to reconnect with what matters while your agents execute.
             Learn something new, touch grass, and remember you're human.
           </p>
@@ -82,7 +82,7 @@ export default function Home() {
               </div>
               <div>
                 <h3 className="font-semibold text-deep-sea text-lg mb-1">Prove you're human</h3>
-                <p className="text-water-dark">Complete a daily hands-on task - take a photo of a plant, show your sunset, make origami</p>
+                <p className="text-deep-sea-light font-medium">Complete a daily hands-on task - take a photo of a plant, show your sunset, make origami</p>
               </div>
             </div>
 
@@ -92,7 +92,7 @@ export default function Home() {
               </div>
               <div>
                 <h3 className="font-semibold text-deep-sea text-lg mb-1">Join the conversation</h3>
-                <p className="text-water-dark">Drop into the live chatroom, share what you made, learn from others</p>
+                <p className="text-deep-sea-light font-medium">Drop into the live chatroom, share what you made, learn from others</p>
               </div>
             </div>
 
@@ -102,7 +102,7 @@ export default function Home() {
               </div>
               <div>
                 <h3 className="font-semibold text-deep-sea text-lg mb-1">Balance work & life</h3>
-                <p className="text-water-dark">Take intentional breaks, build skills, connect with your GovTech community</p>
+                <p className="text-deep-sea-light font-medium">Take intentional breaks, build skills, connect with your GovTech community</p>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1 }}
-          className="text-sm text-water-dark/60"
+          className="text-sm text-deep-sea-light font-medium"
         >
           For GovTech Singapore · Work-Life Balance Initiative
         </motion.p>

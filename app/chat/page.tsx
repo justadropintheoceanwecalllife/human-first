@@ -208,8 +208,8 @@ export default function Chat() {
             </div>
           </div>
           {user && (
-            <p className="text-sm text-water-dark/60">
-              Chatting as <span className="font-semibold">{user.displayName}</span>
+            <p className="text-sm text-deep-sea-light font-medium">
+              Chatting as <span className="font-bold text-deep-sea">{user.displayName}</span>
             </p>
           )}
         </div>
@@ -228,7 +228,7 @@ export default function Chat() {
               <h2 className="text-2xl font-bold text-deep-sea mb-2">
                 Start the conversation!
               </h2>
-              <p className="text-water-dark">
+              <p className="text-deep-sea-light font-medium">
                 Share what you made, ask questions, or just say hi
               </p>
             </motion.div>
@@ -258,11 +258,11 @@ export default function Chat() {
                   ) : (
                     // User message
                     <div className="glass px-6 py-4 rounded-3xl soft-shadow max-w-2xl">
-                      <p className="font-semibold text-water-dark text-sm mb-1">
+                      <p className="font-bold text-deep-sea-light text-sm mb-1">
                         {msg.displayName || 'Anonymous Human'}
                       </p>
                       <p className="text-deep-sea">{msg.message}</p>
-                      <p className="text-xs text-water-dark/50 mt-2">
+                      <p className="text-xs text-deep-sea-light/60 font-medium mt-2">
                         {new Date(msg.createdAt).toLocaleTimeString('en-SG', {
                           hour: '2-digit',
                           minute: '2-digit',
@@ -288,7 +288,7 @@ export default function Chat() {
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what you made, ask a question..."
-              className="flex-1 px-6 py-4 rounded-full bg-white/50 border border-water/20 focus:border-water focus:outline-none text-deep-sea placeholder:text-water-dark/50"
+              className="flex-1 px-6 py-4 rounded-full bg-white/50 border border-water/20 focus:border-water focus:outline-none text-deep-sea placeholder:text-deep-sea-light/70"
               disabled={isSending}
             />
             <motion.button
@@ -308,7 +308,7 @@ export default function Chat() {
       <div className="relative z-10 text-center pb-4">
         <a
           href="/"
-          className="text-sm text-water-dark/60 hover:text-water-dark"
+          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
         >
           ← Back to home
         </a>

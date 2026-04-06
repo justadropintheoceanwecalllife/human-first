@@ -208,7 +208,7 @@ export default function Feed() {
                   )}
 
                   {/* Footer - would show user info in production */}
-                  <div className="flex items-center gap-2 text-sm text-water-dark/60">
+                  <div className="flex items-center gap-2 text-sm text-deep-sea-light font-medium">
                     <span>👤</span>
                     <span>Anonymous Human</span>
                   </div>
@@ -228,7 +228,7 @@ export default function Feed() {
       >
         <a
           href="/"
-          className="text-sm text-water-dark/60 hover:text-water-dark"
+          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
         >
           ← Back to home
         </a>

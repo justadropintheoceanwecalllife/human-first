@@ -174,9 +174,9 @@ export default function DailyChallenge() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass px-6 py-3 rounded-full soft-shadow text-center"
+            className="glass px-6 py-3 rounded-full soft-shadow text-center bg-sunset/20"
           >
-            <p className="text-sm text-sunset font-semibold">
+            <p className="text-sm text-deep-sea font-bold">
               🎭 Demo Mode - Using mock data (Supabase not connected)
             </p>
           </motion.div>
@@ -187,11 +187,11 @@ export default function DailyChallenge() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <p className="text-sm text-water-dark/60 mb-2">Hello, {user.displayName}</p>
+          <p className="text-sm text-deep-sea/80 mb-2 font-medium">Hello, {user.displayName}</p>
           <h1 className="text-5xl font-bold text-deep-sea mb-4">
             Prove you're human
           </h1>
-          <p className="text-xl text-water-dark">
+          <p className="text-xl text-deep-sea-light font-medium">
             Complete today's challenge to join the conversation
           </p>
         </motion.div>
@@ -206,12 +206,12 @@ export default function DailyChallenge() {
             <div className="text-5xl">{challenge.icon}</div>
             <div>
               <h2 className="text-2xl font-bold text-deep-sea">{challenge.title}</h2>
-              <p className="text-water-dark">{challenge.description}</p>
+              <p className="text-deep-sea-light font-medium">{challenge.description}</p>
             </div>
           </div>
 
-          <div className="mb-6 p-6 bg-water-foam/20 rounded-3xl">
-            <p className="text-lg text-deep-sea italic">
+          <div className="mb-6 p-6 bg-water-foam/30 rounded-3xl border border-water/20">
+            <p className="text-lg text-deep-sea italic font-medium">
               "{challenge.prompt}"
             </p>
           </div>
@@ -226,12 +226,12 @@ export default function DailyChallenge() {
                   onChange={handleFileSelect}
                   className="hidden"
                 />
-                <div className="border-2 border-dashed border-water/30 rounded-3xl p-12 text-center cursor-pointer hover:border-water transition-colors hover:bg-water-foam/10">
+                <div className="border-2 border-dashed border-water/50 rounded-3xl p-12 text-center cursor-pointer hover:border-water transition-colors hover:bg-water-foam/10">
                   <div className="text-5xl mb-4">📸</div>
-                  <p className="text-water-dark font-semibold mb-2">
+                  <p className="text-deep-sea font-bold mb-2 text-lg">
                     Click to upload photo or video
                   </p>
-                  <p className="text-sm text-water-dark/60">
+                  <p className="text-sm text-deep-sea-light font-medium">
                     Max 10MB • Images or videos
                   </p>
                 </div>
@@ -291,7 +291,7 @@ export default function DailyChallenge() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-sm text-water-dark/60 hover:text-water-dark"
+          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
         >
           ← Back to home
         </motion.a>

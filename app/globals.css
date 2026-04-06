@@ -16,7 +16,8 @@
   --coral: #FFB5A7;
 
   /* Neutrals */
-  --deep-sea: #2C4F5E;
+  --deep-sea: #1A3A47;
+  --deep-sea-light: #2C4F5E;
   --pearl: #F0F4F5;
   --fog: #C9D6DA;
 }
@@ -35,6 +36,7 @@
   --color-lavender: var(--lavender);
   --color-coral: var(--coral);
   --color-deep-sea: var(--deep-sea);
+  --color-deep-sea-light: var(--deep-sea-light);
   --color-pearl: var(--pearl);
   --color-fog: var(--fog);
 
@@ -131,4 +133,13 @@ body {
 
 .float {
   animation: var(--animate-float);
+}
+
+.text-readable {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.text-strong {
+  color: var(--deep-sea);
+  font-weight: 600;
 }
