@@ -108,13 +108,14 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.button
+        <motion.a
+          href="/daily"
           whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 179, 217, 0.6)" }}
           whileTap={{ scale: 0.95 }}
-          className="glass px-12 py-6 rounded-full text-xl font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+          className="glass px-12 py-6 rounded-full text-xl font-semibold text-deep-sea soft-shadow hover:glow transition-all inline-block"
         >
           Get Started
-        </motion.button>
+        </motion.a>
 
         <motion.p
           initial={{ opacity: 0 }}
