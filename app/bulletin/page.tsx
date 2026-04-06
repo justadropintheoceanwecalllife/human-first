@@ -57,52 +57,6 @@ export default function Bulletin() {
         }}
       />
 
-      {/* Header */}
-      <div className="relative z-10 max-w-5xl mx-auto mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            📌 Bulletin Board
-          </h1>
-          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            Fun activities, events, and community happenings at GovTech
-          </p>
-        </motion.div>
-
-        <div className="flex justify-center gap-4 mb-8 flex-wrap">
-          <motion.a
-            href="/daily"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            📸 Daily Challenge
-          </motion.a>
-          <motion.a
-            href="/feed"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            🎨 Feed
-          </motion.a>
-          <motion.a
-            href="/chat"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            💬 Chat
-          </motion.a>
-        </div>
-      </div>
-
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto">
         {/* Pinned posts */}

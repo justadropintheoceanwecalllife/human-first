@@ -55,40 +55,9 @@ export default function HandsOnPage() {
         }}
       />
 
-      {/* Header */}
-      <div className="relative z-10 max-w-6xl mx-auto mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            🎯 Hands-On Activities
-          </h1>
-          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            Learn something new, try a hobby, or pick up a skill
-          </p>
-        </motion.div>
-
-        <div className="flex justify-center gap-4 mb-8 flex-wrap">
-          <motion.a
-            href="/feed"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            🎨 Community Feed
-          </motion.a>
-          <motion.a
-            href="/chat"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            💬 Join Chat
-          </motion.a>
+      {/* Filters and Controls */}
+      <div className="relative z-10 max-w-6xl mx-auto mb-8">
+        <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
           <motion.button
             onClick={() => setShowAddModal(true)}
             whileHover={{ scale: 1.05 }}
@@ -98,6 +67,35 @@ export default function HandsOnPage() {
           >
             ➕ Add Activity
           </motion.button>
+
+          <div className="flex gap-3">
+            <motion.button
+              onClick={() => setSortBy('popular')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-5 py-2 rounded-full font-bold text-sm transition-all ${
+                sortBy === 'popular'
+                  ? 'glass border-2 border-ocean-white/60 text-ocean-white soft-shadow'
+                  : 'glass text-ocean-white/80 border border-ocean-white/30'
+              }`}
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+            >
+              🔥 Popular
+            </motion.button>
+            <motion.button
+              onClick={() => setSortBy('recent')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`px-5 py-2 rounded-full font-bold text-sm transition-all ${
+                sortBy === 'recent'
+                  ? 'glass border-2 border-ocean-white/60 text-ocean-white soft-shadow'
+                  : 'glass text-ocean-white/80 border border-ocean-white/30'
+              }`}
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
+            >
+              🆕 Recent
+            </motion.button>
+          </div>
         </div>
 
         {/* Filters */}
@@ -135,36 +133,6 @@ export default function HandsOnPage() {
                 {config.icon} {config.label}
               </motion.button>
             ))}
-          </div>
-
-          {/* Sort */}
-          <div className="flex justify-center gap-3">
-            <motion.button
-              onClick={() => setSortBy('popular')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
-                sortBy === 'popular'
-                  ? 'glass border-2 border-ocean-white/60 text-ocean-white'
-                  : 'glass text-ocean-white/70 border border-ocean-white/30'
-              }`}
-              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
-            >
-              🔥 Popular
-            </motion.button>
-            <motion.button
-              onClick={() => setSortBy('recent')}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
-                sortBy === 'recent'
-                  ? 'glass border-2 border-ocean-white/60 text-ocean-white'
-                  : 'glass text-ocean-white/70 border border-ocean-white/30'
-              }`}
-              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
-            >
-              🆕 Recent
-            </motion.button>
           </div>
         </div>
       </div>

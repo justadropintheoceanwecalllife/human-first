@@ -132,42 +132,8 @@ export default function Feed() {
         }}
       />
 
-      {/* Header */}
-      <div className="relative z-10 max-w-7xl mx-auto mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-            Community Gallery
-          </h1>
-          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
-            See what humans are creating today
-          </p>
-        </motion.div>
-
-        <div className="flex justify-center gap-4 mb-8">
-          <motion.a
-            href="/daily"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            📸 Today's Challenge
-          </motion.a>
-          <motion.a
-            href="/chat"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
-          >
-            💬 Join Chat
-          </motion.a>
-        </div>
-
+      {/* Category filters */}
+      <div className="relative z-10 max-w-7xl mx-auto mb-8">
         {/* Category filters */}
         <div className="mb-8">
           <p className="text-sm text-ocean-white/80 font-medium text-center mb-4" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>
