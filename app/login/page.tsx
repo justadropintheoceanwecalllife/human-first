@@ -25,10 +25,10 @@ export default function LoginPage() {
     setTimeout(() => {
       setAuthStep('success');
 
-      // Complete authentication
+      // Complete authentication and redirect to daily challenge
       setTimeout(() => {
         mockSingpassLogin(nric);
-        router.push('/');
+        router.push('/daily');
       }, 1000);
     }, 2000);
   };

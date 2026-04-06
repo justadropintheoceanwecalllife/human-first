@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import JellyfishAnimation from '@/components/JellyfishAnimation';
 import UserMenu from '@/components/UserMenu';
+import Leaderboard from '@/components/Leaderboard';
 
 export default function Home() {
   return (
@@ -167,6 +168,11 @@ export default function Home() {
           For GovTech Singapore · Work-Life Balance Initiative
         </motion.p>
       </main>
+
+      {/* Leaderboard */}
+      <div className="relative z-10 mt-16 px-8 pb-12 w-full">
+        <Leaderboard />
+      </div>
     </div>
   );
 }

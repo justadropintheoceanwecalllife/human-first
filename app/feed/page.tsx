@@ -7,6 +7,7 @@ import { getAllSubmissionsMock, getUserSubmissionsMock } from '@/lib/mockUserMan
 import { getChallengeById, getTodaysChallenge } from '@/lib/challenges';
 import FeaturedGallery from '@/components/FeaturedGallery';
 import UserMenu from '@/components/UserMenu';
+import Leaderboard from '@/components/Leaderboard';
 import type { Submission, SubmissionCategory } from '@/types/user';
 
 interface SubmissionWithChallenge extends Submission {
@@ -375,15 +376,22 @@ export default function Feed() {
         )}
 
         {/* Featured Gallery */}
-        <FeaturedGallery />
+        {submissions.length > 0 && <FeaturedGallery />}
       </div>
+
+      {/* Leaderboard */}
+      {submissions.length > 0 && (
+        <div className="relative z-10 mt-16 px-8">
+          <Leaderboard />
+        </div>
+      )}
 
       {/* Back to home */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="relative z-10 text-center mt-12"
+        className="relative z-10 text-center mt-12 pb-8"
       >
         <a
           href="/"

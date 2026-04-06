@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
 import UserMenu from '@/components/UserMenu';
+import Leaderboard from '@/components/Leaderboard';
 
 const categoryColors = {
   sig: 'bg-jellyfish-pink/30 border-jellyfish-pink/50',
@@ -125,12 +126,17 @@ export default function Bulletin() {
         </div>
       </div>
 
+      {/* Leaderboard */}
+      <div className="relative z-10 mt-16 px-8">
+        <Leaderboard />
+      </div>
+
       {/* Back to home */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="relative z-10 text-center mt-12"
+        className="relative z-10 text-center mt-12 pb-8"
       >
         <a
           href="/"
