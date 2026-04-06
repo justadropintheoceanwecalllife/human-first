@@ -4,19 +4,19 @@ import { motion } from 'framer-motion';
 import { mockBulletinPosts, type BulletinPost } from '@/types/bulletin';
 
 const categoryColors = {
-  product: 'bg-jellyfish/20 border-jellyfish/40',
-  survey: 'bg-water-foam/30 border-water/40',
+  sig: 'bg-jellyfish-pink/30 border-jellyfish-pink/50',
+  cmg: 'bg-jellyfish-purple/30 border-jellyfish-purple/50',
+  play: 'bg-jellyfish-glow/40 border-jellyfish-glow/60',
   event: 'bg-sunset/20 border-sunset/40',
-  announcement: 'bg-lavender/20 border-lavender/40',
-  research: 'bg-moss/20 border-moss/40',
+  announcement: 'bg-ocean-light/20 border-ocean-light/40',
 };
 
 const categoryLabels = {
-  product: 'Product',
-  survey: 'Survey',
+  sig: 'SIG',
+  cmg: 'CMG',
+  play: 'Play @ GovTech',
   event: 'Event',
   announcement: 'Announcement',
-  research: 'Research',
 };
 
 export default function Bulletin() {
@@ -58,11 +58,11 @@ export default function Bulletin() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-5xl font-bold text-deep-sea mb-4">
+          <h1 className="text-5xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             📌 Bulletin Board
           </h1>
-          <p className="text-xl text-deep-sea-light font-medium">
-            Updates, initiatives, and opportunities from product owners
+          <p className="text-xl text-ocean-white/90 font-medium" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+            Fun activities, events, and community happenings at GovTech
           </p>
         </motion.div>
 
@@ -71,7 +71,8 @@ export default function Bulletin() {
             href="/daily"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
           >
             📸 Daily Challenge
           </motion.a>
@@ -79,7 +80,8 @@ export default function Bulletin() {
             href="/feed"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
           >
             🎨 Feed
           </motion.a>
@@ -87,7 +89,8 @@ export default function Bulletin() {
             href="/chat"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="glass px-6 py-3 rounded-full font-semibold text-deep-sea soft-shadow hover:glow transition-all"
+            className="glass px-6 py-3 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
           >
             💬 Chat
           </motion.a>
@@ -99,7 +102,7 @@ export default function Bulletin() {
         {/* Pinned posts */}
         {pinnedPosts.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-deep-sea mb-6 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-ocean-white mb-6 flex items-center gap-2" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
               <span>📍</span> Pinned
             </h2>
             <div className="space-y-6">
@@ -127,7 +130,8 @@ export default function Bulletin() {
       >
         <a
           href="/"
-          className="text-sm text-deep-sea-light font-medium hover:text-deep-sea underline"
+          className="text-sm text-ocean-white/80 font-medium hover:text-ocean-white underline"
+          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
         >
           ← Back to home
         </a>
