@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { getUserSubmissions } from '@/lib/userManager';
+import { getAllSubmissions } from '@/lib/supabaseUserManager';
 import { getChallengeById } from '@/lib/challenges';
 import type { Submission } from '@/types/user';
 
@@ -16,22 +16,26 @@ export default function Feed() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // For MVP: Get submissions from localStorage
-    // In production: Fetch from Supabase
-    const userSubmissions = getUserSubmissions();
+    // Fetch all submissions from Supabase
+    getAllSubmissions()
+      .then(subs => {
+        // Enrich with challenge data
+        const enriched = subs.map(sub => {
+          const challenge = getChallengeById(sub.challengeId);
+          return {
+            ...sub,
+            challengeTitle: challenge?.title,
+            challengeIcon: challenge?.icon,
+          };
+        });
 
-    // Enrich with challenge data
-    const enriched = userSubmissions.map(sub => {
-      const challenge = getChallengeById(sub.challengeId);
-      return {
-        ...sub,
-        challengeTitle: challenge?.title,
-        challengeIcon: challenge?.icon,
-      };
-    });
-
-    setSubmissions(enriched.reverse()); // Show newest first
-    setIsLoading(false);
+        setSubmissions(enriched);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Failed to load submissions:', error);
+        setIsLoading(false);
+      });
   }, []);
 
   if (isLoading) {

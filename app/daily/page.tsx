@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getTodaysChallenge } from '@/lib/challenges';
-import { getOrCreateUser, addSubmission, updateStreak } from '@/lib/userManager';
+import { getOrCreateUser, addSubmission, updateStreak, uploadFile } from '@/lib/supabaseUserManager';
 import type { User } from '@/types/user';
 
 export default function DailyChallenge() {
@@ -17,8 +17,7 @@ export default function DailyChallenge() {
   const challenge = getTodaysChallenge();
 
   useEffect(() => {
-    const currentUser = getOrCreateUser();
-    setUser(currentUser);
+    getOrCreateUser().then(setUser).catch(console.error);
   }, []);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,31 +49,20 @@ export default function DailyChallenge() {
     setIsSubmitting(true);
 
     try {
-      // For MVP, we'll store the file as base64 in localStorage
-      // In production, this would upload to Supabase Storage
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
+      // Upload file to Supabase Storage
+      const imageUrl = await uploadFile(selectedFile);
 
-        // Add submission
-        addSubmission({
-          userId: user.anonymousId,
-          challengeId: challenge.id,
-          imageUrl: base64,
-          caption: caption || '',
-        });
+      // Add submission to database
+      await addSubmission(challenge.id, imageUrl, caption);
 
-        // Update streak
-        updateStreak();
+      // Update streak
+      await updateStreak();
 
-        setHasSubmitted(true);
-        setIsSubmitting(false);
-      };
-
-      reader.readAsDataURL(selectedFile);
+      setHasSubmitted(true);
     } catch (error) {
       console.error('Failed to submit:', error);
       alert('Failed to submit. Please try again.');
+    } finally {
       setIsSubmitting(false);
     }
   };
