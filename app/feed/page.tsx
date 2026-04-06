@@ -47,15 +47,31 @@ export default function Feed() {
         setUserSubmissions(userSubs);
 
         const allSubs = await getAllSubmissions();
-        const enriched = allSubs.map(sub => {
-          const challenge = getChallengeById(sub.challengeId);
-          return {
-            ...sub,
-            challengeTitle: challenge?.title,
-            challengeIcon: challenge?.icon,
-          };
-        });
-        setSubmissions(enriched);
+
+        // If Supabase returns empty, fallback to mock data
+        if (allSubs.length === 0) {
+          console.warn('No Supabase submissions, using mock data');
+          const mockSubs = await getAllSubmissionsMock();
+          const enriched = mockSubs.map(sub => {
+            const challenge = getChallengeById(sub.challengeId);
+            return {
+              ...sub,
+              challengeTitle: challenge?.title,
+              challengeIcon: challenge?.icon,
+            };
+          });
+          setSubmissions(enriched);
+        } else {
+          const enriched = allSubs.map(sub => {
+            const challenge = getChallengeById(sub.challengeId);
+            return {
+              ...sub,
+              challengeTitle: challenge?.title,
+              challengeIcon: challenge?.icon,
+            };
+          });
+          setSubmissions(enriched);
+        }
         setIsLoading(false);
       } catch (error) {
         console.warn('Supabase failed, using mock mode:', error);
