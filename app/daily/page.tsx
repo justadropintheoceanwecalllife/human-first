@@ -151,43 +151,48 @@ export default function DailyChallenge() {
           <h1 className="text-4xl font-bold text-ocean-white mb-4" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
             You're human!
           </h1>
-          <p className="text-xl text-ocean-white/90 font-medium mb-8" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
+          <p className="text-xl text-ocean-white/90 font-medium mb-4" style={{ textShadow: '0 2px 6px rgba(0,0,0,0.25)' }}>
             Thanks for sharing, {user.displayName}
           </p>
 
-          <div className="space-y-4 text-left mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-water-foam flex items-center justify-center">
-                🔥
-              </div>
-              <div>
-                <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
-                  {user.streakCount} day streak!
-                </p>
-                <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Keep it going</p>
-              </div>
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <div className="w-12 h-12 rounded-full bg-water-foam flex items-center justify-center">
+              🔥
+            </div>
+            <div className="text-left">
+              <p className="font-bold text-ocean-white" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}>
+                {user.streakCount} day streak!
+              </p>
+              <p className="text-sm text-ocean-white/80 font-medium" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Keep it going</p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <motion.a
+          <motion.a
+            href="/hands-on"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block glass px-10 py-5 rounded-full text-xl font-bold text-ocean-white soft-shadow hover:glow transition-all mb-6 bg-jellyfish-pink/30 border-2 border-jellyfish-pink/60"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+          >
+            🎯 Explore Hands-On Activities
+          </motion.a>
+
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
               href="/feed"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+              className="text-ocean-white/80 font-semibold hover:text-ocean-white underline text-sm"
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
             >
-              See Community Feed
-            </motion.a>
-            <motion.a
+              Community Feed
+            </a>
+            <span className="text-ocean-white/60 hidden sm:inline">•</span>
+            <a
               href="/chat"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass px-8 py-4 rounded-full font-bold text-ocean-white soft-shadow hover:glow transition-all"
-              style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+              className="text-ocean-white/80 font-semibold hover:text-ocean-white underline text-sm"
+              style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}
             >
-              Join the Chat
-            </motion.a>
+              Live Chat
+            </a>
           </div>
         </motion.div>
       </div>

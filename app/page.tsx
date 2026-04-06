@@ -134,6 +134,14 @@ export default function Home() {
           className="flex gap-4 flex-wrap justify-center"
         >
           <a
+            href="/hands-on"
+            className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
+            style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
+          >
+            Hands-On Activities
+          </a>
+          <span className="text-ocean-white/60">•</span>
+          <a
             href="/feed"
             className="text-ocean-white/80 font-semibold hover:text-ocean-white transition-colors underline"
             style={{ textShadow: '0 1px 3px rgba(0,0,0,0.2)' }}
